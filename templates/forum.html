@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static '../static/css/forum.css'%}" />
+{% endblock %}
+
+{% block content %}
+
+<div class="container" id="background">
+    <div class="col d-flex flex-column justify-content-center align-items-center">
+        <div class="container">
+            <header class="text-center my-4">
+                <h2 class="fw-bold">Discussion Forums</h2>
+                <p class="lead">This is a central hub for teachers to engage in discussions about educational topics, share insights, and seek advice.</p>
+            </header>
+            <a href="#" class="btn btn-primary mb-3">
+                <svg class="me-2 bi bi-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 1a.5.5 0 0 1 .5.5v6.5H15a.5.5 0 0 1 0 1H8.5V15a.5.5 0 0 1-1 0V8.5H1a.5.5 0 0 1 0-1h6.5V1.5A.5.5 0 0 1 8 1z"></path>
+                </svg>
+                Create Discussion
+            </a>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ discussion.title }}</h5>
+                            <p class="card-text">{{ discussion.description }}</p>
+                            <p class="card-text"><strong>Posted by:</strong> {{ discussion.author }}</p>
+                            <p class="card-text"><small class="text-muted">{{ discussion.date }}</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path
+                                        d="M9.293 1.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.235-1.236l1-3a1 1 0 0 1 .242-.391l9-9zM10 3.414L12.586 6 10 8.586 7.414 6l2.586-2.586zM2.293 11.707L8 6l2 2L4.586 14H3v-1.586l-.707-.707z"></path>
+                                </svg>
+                                Edit
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M3.5 5.5A.5.5 0 0 1 4 5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9zm1 0v9a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0-.5.5z"></path>
+                                    <path fill-rule="evenodd" d="M11.646 3.354a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"></path>
+                                    <path fill-rule="evenodd" d="M3.354 3.354a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"></path>
+                                </svg>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fim do loop -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

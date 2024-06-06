@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static '../static/css/confirm.css'%}" />
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" id="background" style="height: 100%;">
+    <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center" style="padding-top: 10px; padding-bottom: 10px;">
+        <form class="form" action="{% url 'inicio:confirmar_email'%}" method="post">
+            {% csrf_token %}
+            <div class="title">OTP</div>
+            <div class="title">Verification Code</div>
+            <p class="message">We have sent a verification code to your mobile number</p>
+            <div class="inputs">
+                <input id="input1" name="n1" type="text" maxlength="1" /> <input id="input2" name="n2" type="text" maxlength="1" /> <input id="input3" name="n3" type="text" maxlength="1" />
+                <input id="input4" name="n4" type="text" maxlength="1" />
+            </div>
+            <li class="errorlist">
+                {{ error_message }}
+            </li>
+
+            <button class="action" type="submit">verify me</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

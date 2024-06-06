@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static '../static/css/styles.css'%}" />
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" id="background" style="height: 100%; padding-top: 12px; padding-bottom: 12px;">
+    <div class="col-md-12 d-flex flex-column align-items-center" style="height: 0%;">
+        <form class="form" action="{% url 'inicio:resgito2' %}" method="post">
+            {% csrf_token %}
+            <div class="title">Regsito<br /></div>
+            <input type="tel" placeholder="Telemovel" name="telemovel" class="input" />
+            {{ form.telemovel.errors }}
+            <input type="date" placeholder="Data de Nascimento" name="nascimento" class="input" />
+            {{ form.nascimento.errors }}
+            <input type="text" placeholder="Endereço" name="endereco" class="input" />
+            {{ form.endereco.errors }}
+            <input type="text" placeholder="Cidade" name="cidade" class="input" />
+            {{ form.cidade.errors }}
+            <input type="text" placeholder="Codigo Postal" name="codigo_postal" class="input" />
+            {{ form.codigo_postal.errors }}
+            <button type="submit" class="button-confirm">Let`s go →</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

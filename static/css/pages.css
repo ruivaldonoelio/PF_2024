@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+header p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.module {
+  width: calc(33.333% - px);
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 19px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.module-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.module {
+  margin-bottom: 0;
+}
+
+.module:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ant-card-head-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  padding: 10px;
+}
+
+.ant-card-cover {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.ant-card-cover svg {
+  width: 48px;
+  height: 48px;
+}
+
+.ant-card-body {
+  padding: 20px;
+}
+
+.ant-typography {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* Estilo adicional para os links dentro dos artigos */
+
+.ant-typography a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.ant-typography a:hover {
+  text-decoration: underline;
+}
+

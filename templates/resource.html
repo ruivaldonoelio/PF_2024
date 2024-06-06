@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static '../static/css/pages.css'%}" />
+{% endblock %}
+
+{% block content %}
+<div class="container" id="background">
+    <div class="col d-flex flex-column justify-content-center align-items-center">
+        <header class="text-center mt-5">
+            <h1>Educational Resources</h1>
+            <p>Explore a variety of educational resources shared by fellow educators.</p>
+        </header>
+        <main class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Innovative Teaching Strategies for Math</h5>
+                            <p class="card-text">Learn about new and exciting ways to teach mathematics that increase student understanding and inter...</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Uploaded by: Bob Smith</small><br />
+                            <small class="text-muted">Date: 19 May 2024</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Título do Recurso Educacional</h5>
+                            <p class="card-text">Descrição do recurso educacional...</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Uploaded by: Nome do Uploader</small><br />
+                            <small class="text-muted">Date: Data de Upload</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

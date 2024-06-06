@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static '../static/css/styles.css'%}" />
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" id="background" style="height: 100%; padding-top: 12px; padding-bottom: 12px;">
+    <div class="col-md-12 d-flex flex-column align-items-center" style="height: 0%;">
+        <form class="form" action = '{% url 'inicio:registo1' %}' method="post">
+            {% csrf_token %}
+            <div class="title">Registo<br /></div>
+            <input type="text" placeholder="Username" name="username" class="input" />
+            {{ form.username.errors }}
+            <input type="text" placeholder="First Name" name="first_name" class="input"/>
+            {{ form.first_name.errors }}
+            <input type="text" placeholder="Last Name" name="last_name" class="input"/>
+            {{ form.last_name.errors }}
+            <input type="email" placeholder="Email" name="email" class="input"/>
+            {{ form.email.errors }}
+            <input type="password" placeholder="Password" name="password" class="input" />
+            {{ form.password.errors }}
+            <input type="password" placeholder="Re-Password" name="password_confirm" class="input" />
+            {{ form.password_confirm.errors }}
+            {{ form.non_field_errors }}
+            <button class="button-confirm" type="submit" >Let`s go →</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

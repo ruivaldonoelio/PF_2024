@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static '../static/css/pages.css'%}" />
+{% endblock %}
+
+{% block content %}
+<div class="container" id="background">
+    <div class="col d-flex flex-column justify-content-center align-items-center">
+        <header class="text-center mt-5">
+            <h1>My Contributions</h1>
+            <p>Manage and view your contributions to the platform.</p>
+        </header>
+
+        <main class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="resources-tab" data-bs-toggle="tab" data-bs-target="#resources" type="button" role="tab" aria-controls="resources" aria-selected="true">Resources</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="discussions-tab" data-bs-toggle="tab" data-bs-target="#discussions" type="button" role="tab" aria-controls="discussions" aria-selected="false">Discussions</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="resources" role="tabpanel" aria-labelledby="resources-tab">
+                            <div class="list-group mt-3">
+                                <div class="list-group-item">Resource 1</div>
+                                <div class="list-group-item">Resource 2</div>
+                                <div class="col-md-6"><p>Press the button add new resources</p></div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary"><span class="bi bi-plus"></span>+ Create Resources</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="discussions" role="tabpanel" aria-labelledby="discussions-tab">
+                            <div class="list-group mt-3">
+                                <div class="list-group-item">Discussion 1</div>
+                                <div class="list-group-item">Discussion 2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

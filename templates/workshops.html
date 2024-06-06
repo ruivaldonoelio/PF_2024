@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static '../static/css/pages.css'%}" />
+{% endblock %}
+
+{% block content %}
+<div class="container" id="background">
+    <div class="col d-flex flex-column justify-content-center align-items-center">
+        <header class="text-center my-4">
+            <h1>Workshops and Webinars for Educators</h1>
+            <p>Explore and enroll in Workshops and Webinars to enhance your teaching skills.</p>
+            <form class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Search...">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select">
+                        <option selected>Category</option>
+                        <option value="1">Workshops</option>
+                        <option value="2">Webinars</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+
+        </header>
+
+        <main class="container">
+
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Effective Assessment Techniques
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Learn about innovative ways to manage your classroom effectively for a
+                                better learning environment.</p>
+                            <p class="card-text"><small class="text-muted">Instructor: Bob Smith</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-link">Details</button>
+                            <button type="button" class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Innovative Classroom Management
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">This module provides comprehensive insights into designing and
+                                implementing
+                                effective curriculums.</p>
+                            <p class="card-text"><small class="text-muted">Instructor: Cathy Lee</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-link">Details</button>
+                            <button type="button" class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Curriculum Design and Implementation
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">This module provides comprehensive insights into designing and
+                                implementing
+                                effective curriculums.</p>
+                            <p class="card-text"><small class="text-muted">Instructor: Bob Smith</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-link">Details</button>
+                            <button type="button" class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Effective Teaching Strategies
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Learn about innovative ways to manage your classroom effectively for a
+                                better learning environment.</p>
+                            <p class="card-text"><small class="text-muted">Instructor: David Brown</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-link">Details</button>
+                            <button type="button" class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Educational Technology Integration
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Discover new ways to integrate technology in your teaching methods to
+                                enhance student learning.</p>
+                            <p class="card-text"><small class="text-muted">Instructor: Emma Green</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-link">Details</button>
+                            <button type="button" class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Advanced Pedagogy
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Delve into advanced pedagogical techniques that can help you become a
+                                more
+                                effective educator.</p>
+                            <p class="card-text"><small class="text-muted">Instructor: Frank White</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-link">Details</button>
+                            <button type="button" class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Special Education Strategies
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Gain essential skills and knowledge to support students with special
+                                needs
+                                effectively.</p>
+                            <p class="card-text"><small class="text-muted">Instructor: Grace Black</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-link">Details</button>
+                            <button type="button" class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Psychology for Educators
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Understand the psychological principles that can enhance teaching and
+                                learning in the classroom.</p>
+                            <p class="card-text"><small class="text-muted">Instructor: Helen Blue</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-link">Details</button>
+                            <button type="button" class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            Education Policy and Leadership
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Explore the latest education policies and develop leadership skills to
+                                influence educational practice.</p>
+                            <p class="card-text"><small class="text-muted">Instructor: Ivan Grey</small></p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button type="button" class="btn btn-link">Details</button>
+                            <button type="button" class="btn btn-primary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
