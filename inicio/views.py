@@ -50,6 +50,7 @@ def workshops_webinars(request):
 def login_v(request):
     if request.method == 'POST':
         form = EmailLoginForm(data=request.POST)
+        print(form.errors)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
@@ -131,7 +132,7 @@ def up_documentos(request):
             del request.session['registo_form']
             del request.session['details_form']
 
-            return HttpResponse("documento registrado com sucesso")
+            return render(request, "login.html")
         else:
             return render(request, 'up_doc.html', {'error_message': 'Por favor, envie ambos os arquivos.'})
     else:

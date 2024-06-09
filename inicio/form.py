@@ -54,11 +54,11 @@ class UserDetailsForm(forms.ModelForm):
 
     def clean_nascimento(self):
         nascimento = self.cleaned_data.get('nascimento')
-        idade_minima = 18
+        idade_minima = 24
         idade = (date.today() - nascimento).days // 365  # Calcula a idade em anos
 
         if idade < idade_minima:
-            raise ValidationError("Você deve ter pelo menos 18 anos para se cadastrar.")
+            raise ValidationError("Você deve ter pelo menos 24 anos para se cadastrar.")
         return nascimento.strftime("%Y-%m-%d")
 
     def clean_codigo_postal(self):

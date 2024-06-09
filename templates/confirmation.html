@@ -17,12 +17,18 @@
                 <input id="input1" name="n1" type="text" maxlength="1" /> <input id="input2" name="n2" type="text" maxlength="1" /> <input id="input3" name="n3" type="text" maxlength="1" />
                 <input id="input4" name="n4" type="text" maxlength="1" />
             </div>
-            <li class="errorlist">
-                {{ error_message }}
-            </li>
+            {% if error_message %}
+                <li class="errorlist">
+                    {{ error_message }}
+                </li>
+            {% endif %}
 
             <button class="action" type="submit">verify me</button>
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static '../static/js/confirmation.js' %}"></script>
 {% endblock %}

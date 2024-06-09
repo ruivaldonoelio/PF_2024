@@ -18,13 +18,13 @@ class User_details(models.Model):
 
 class Courses(models.Model):
     titulo = models.CharField(max_length=255)
-    tipo = models.CharField(max_length=255)
+    descrição = models.CharField(max_length=255)
     inicio_inscricao = models.DateField()
     fim_inscricao = models.DateField()
     data_inicio = models.DateField()
     data_fim = models.DateField()
     limite_inscritos = models.IntegerField()
-    descricao = models.CharField(max_length=500)
+    texto = models.CharField(max_length=500)
 
     def __str__(self):
         return self.titulo
@@ -40,7 +40,7 @@ class Conteudo(models.Model):
 
 class Exercicio(models.Model):
     curso = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name='exercicios')
-    arquivo = models.FileField(upload_to='pdfs2/')
+    arquivo = models.FileField(upload_to='arquivo/')
 
     def __str__(self):
         return self.curso.titulo
@@ -48,8 +48,17 @@ class Exercicio(models.Model):
 
 class QuestionText(models.Model):
     curso = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name='questions')
-    texto = models.CharField(max_length=200)
+    number = models.CharField(max_length=200)
+    data_encerramento = models.DateField()
 
     def __str__(self):
         return self.curso.titulo
+
+
+class Text(models.Model):
+    question = models.ForeignKey(QuestionText, on_delete=models.CASCADE, related_name='questions')
+    texto = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.question.number
 

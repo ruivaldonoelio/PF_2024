@@ -97,3 +97,4 @@ coverage.xml
 profile_default/
 ipython_config.py
 
+!/.env
