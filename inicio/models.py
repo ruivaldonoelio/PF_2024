@@ -18,13 +18,14 @@ class User_details(models.Model):
 
 class Courses(models.Model):
     titulo = models.CharField(max_length=255)
-    descrição = models.CharField(max_length=255)
+    descricao = models.CharField(max_length=255)
     inicio_inscricao = models.DateField()
     fim_inscricao = models.DateField()
     data_inicio = models.DateField()
     data_fim = models.DateField()
     limite_inscritos = models.IntegerField()
-    texto = models.CharField(max_length=500)
+    texto = models.TextField(max_length=None)
+    link_zoom = models.URLField()
 
     def __str__(self):
         return self.titulo
@@ -61,4 +62,5 @@ class Text(models.Model):
 
     def __str__(self):
         return self.question.number
+
 

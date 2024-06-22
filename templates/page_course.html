@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="background" class="container" style="padding: 20px;">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 text-center d-md-flex flex-column align-items-md-center" style="padding: 20px; height: 40%;">
+            <img
+                class="rounded-circle img-fluid d-lg-flex"
+                src="https://static.vecteezy.com/system/resources/thumbnails/009/315/010/small/university-teacher-standing-at-the-podium-tribune-in-front-of-blackboard-free-png.png"
+                width="106"
+                height="124"
+                style="margin-bottom: 12px;"
+            />
+            <h3 class="text-center">Ruivaldo Santana</h3>
+            <p class="text-break" style="font-size: 16px; line-height: 19px; margin-bottom: 10px;">ruivaldo.foxrs@gmail.com</p>
+            <p style="margin-bottom: 0;">+351961250522</p>
+            <div class="d-flex justify-content-center" style="gap: 10px;margin-bottom: 5px;">
+                <a href="#">Zoom</a>
+                <a href="#">Forum</a>   
+            </div>
+            <button class="mainbtn_login setcont_nav">Inscrever</button>
+        </div>
+        <div class="col-md-7 flex-grow-1">
+            <h1>{{ curso.titulo }}</h1>
+            <p class="text-break">{{ curso.texto }}</p>
+            <div id="bt_cursos">
+                <div class="col">
+                    <button
+                        class="btn btn-primary text-start d-flex justify-content-between align-items-center navbar-toggler"
+                        id="toggleButton"
+                        type="button"
+                        style="
+                            width: 100%;
+                            background: var(--bs-btn-disabled-color);
+                            color: var(--bs-body-color);
+                            height: 37px;
+                            font-size: 19px;
+                            font-weight: bold;
+                            border-color: #d5d5d5;
+                            border-bottom-width: 1px;
+                            border-bottom-style: solid;
+                        "
+                        data-bs-toggle="collapse"
+                        data-bs-target="#conteudo"
+                    >
+                        &nbsp; &nbsp;Conteúdo<i class="fas fa-angle-down" id="toggleIcon" style="margin-right: 2%;"></i>
+                    </button>
+                </div>
+                <div class="row collapse" id="conteudo" style="margin: 2%;">
+                    <div class="col">
+                        <ol style="margin: 0;">
+                            <li><a href="#" style="margin-left: 1px;">Aula</a></li>
+                            <li><a href="#" style="margin-left: 1px;">Aula</a></li>
+                        </ol>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+            <div id="bt_exercicios">
+                <div class="col">
+                    <button
+                        class="btn btn-primary text-start d-flex justify-content-between align-items-center navbar-toggler"
+                        id="toggleButton-1"
+                        type="button"
+                        style="
+                            width: 100%;
+                            background: var(--bs-btn-disabled-color);
+                            color: var(--bs-body-color);
+                            height: 37px;
+                            font-size: 19px;
+                            font-weight: bold;
+                            border-color: #d5d5d5;
+                            border-bottom-width: 1px;
+                            border-bottom-style: solid;
+                        "
+                        data-bs-toggle="collapse"
+                        data-bs-target="#exercicio"
+                    >
+                        &nbsp; &nbsp;Exercícios<i class="fas fa-angle-down" id="toggleIcon-1" style="margin-right: 2%;"></i>
+                    </button>
+                </div>
+                <div class="row collapse" id="exercicio" style="margin: 2%;">
+                    <div class="col">
+                        <ol style="margin: 0;">
+                            <li><a href="#" style="margin-left: 1px; height: initial; margin-right: 7px;">Responder</a>Limite: 13/07/1213</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div id="bt_questionario">
+                <div class="col">
+                    <button
+                        class="btn btn-primary text-start d-flex justify-content-between align-items-center navbar-toggler"
+                        id="toggleButton-2"
+                        type="button"
+                        style="
+                            width: 100%;
+                            background: var(--bs-btn-disabled-color);
+                            color: var(--bs-body-color);
+                            height: 37px;
+                            font-size: 19px;
+                            font-weight: bold;
+                            border-color: #d5d5d5;
+                            border-bottom-width: 1px;
+                            border-bottom-style: solid;
+                        "
+                        data-bs-toggle="collapse"
+                        data-bs-target="#quest"
+                    >
+                        &nbsp; &nbsp;Questionários&nbsp;<i class="fas fa-angle-down" id="toggleIcon-2" style="margin-right: 2%;"></i>
+                    </button>
+                </div>
+                <div class="row collapse" id="quest" style="margin: 2%;">
+                    <div class="col">
+                        <ol style="margin: 0;">
+                            <li><a href="#" style="margin-left: 1px; height: initial; margin-right: 7px;" download="">Fazer download</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

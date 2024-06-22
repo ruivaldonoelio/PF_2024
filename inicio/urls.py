@@ -16,7 +16,10 @@ urlpatterns = [
     path('registo/details_2/', views.registo_details, name='resgito2'),
     path('resgito/documentos/', views.up_documentos, name='up_documentos'),
     path('courses/', views.courses, name='courses'),
+    path('courses/<int:course_id>', views.page_course, name='page_courses'),
     path('resources/', views.resources, name='resources'),
     path('forum/', views.forum, name='forum'),
+    path('forum/<int:forum_id>', views.forum, name='page_forum'),
     path('workshops_webinars/', views.workshops_webinars, name='workshops_webinars'),
+    path('workshops_webinars/<int:question_id>', views.workshops_webinars, name='page_workshops_webinars'),
 ]

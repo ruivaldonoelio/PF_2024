@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from .form import RegistroUsuarioForm, UserDetailsForm, PasswordResetForm, EmailLoginForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
+from .models import Courses
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 import smtplib
@@ -29,7 +29,13 @@ def contributions(request):
 
 @login_required
 def courses(request):
-    return render(request, "courses.html")
+    cursos = Courses.objects.all()
+    return render(request, "courses.html", {"cursos": cursos})
+
+
+def page_course(request, course_id):
+    curso = get_object_or_404(Courses, id=course_id)
+    return render(request, "page_course.html", {"curso": curso})
 
 
 @login_required
