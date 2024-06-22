@@ -17,6 +17,7 @@ dist/
 *.mo
 *.compiled
 *.migrations/__pycache__/
+migrations/
 local_settings.py
 db.sqlite3
 
