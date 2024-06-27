@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extra_title %}|Cursos{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/pages.css'%}" />
 {% endblock %}
@@ -33,7 +35,7 @@
         <main class="container">
             <section class="module-list">
                 {% for curso in cursos %}
-                    <a href="{% url 'inicio:page_courses' curso.id %}">
+                    <a href="{% url 'profdevhub:page_courses' curso.id %}">
                         <article class="module">
                             <div class="ant-card ant-card-bordered ant-card-hoverable css-dev-only-do-not-override-dfng7c">
                                 <div class="ant-card-head">

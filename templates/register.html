@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_title %}|Registo{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/styles.css'%}" />
 {% endblock %}
@@ -8,7 +10,7 @@
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" id="background" style="height: 100%; padding-top: 12px; padding-bottom: 12px;">
     <div class="col-md-12 d-flex flex-column align-items-center" style="height: 0%;">
-        <form class="form" action = '{% url 'inicio:registo1' %}' method="post">
+        <form class="form" action = '{% url 'profdevhub:registo1' %}' method="post">
             {% csrf_token %}
             <div class="title">Registo<br /></div>
             <input type="text" placeholder="Username" name="username" class="input" />

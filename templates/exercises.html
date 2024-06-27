@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_title %}|Exercício|{{ exercicio.nome }}{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static '../static/css/new_things.css'%}" />{% endblock %}
+
+{% block content %}
+<div id = "background" class="container d-flex justify-content-center align-items-center" style="padding: 20px;">
+    <div class="form">
+        <div class="form__header">
+            <span class="form__title">{{ exercicio.nome }}</span>
+        </div>
+        <div id="form-container">
+            <form style="padding: 15px 20px;">
+                {% for ques in question %}
+                    <label class="input__label">{{ ques.texto }}</label>
+                    <textarea class="input__field_Q" type="text" name="question1" style="width: 100%;"></textarea>
+                {% endfor %}
+            </form>
+        </div>
+        <div class="form__footer">
+            <button class="button button--primary">Submeter</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_title %}|Upload documentos{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/confirm.css'%}" />
 {% endblock %}
@@ -13,7 +15,7 @@
                 <p class="modal-title">Upload a file</p>
                 <p class="modal-description">Attach the file below</p>
 
-                <form class="up_doc hidden" action="{% url 'inicio:up_documentos' %}" method="post" enctype="multipart/form-data">
+                <form class="up_doc hidden" action="{% url 'profdevhub:up_documentos' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="file" name="arquivo1" id="fileInput1" onchange="handleFileChange(event);" />
                     <input type="file" name="arquivo2" id="fileInput2" onchange="handleFileChange(event);" />

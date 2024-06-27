@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .form import RegistroUsuarioForm, UserDetailsForm, PasswordResetForm, EmailLoginForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
-from .models import Courses
+from .models import *
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 import smtplib
@@ -19,7 +19,12 @@ def index(request):
 
 @login_required
 def homepage(request):
-    return render(request, "home.html", {"user": request.user})
+    return render(request, "home.html")
+
+
+@login_required
+def perfil(request):
+    return render(request, "profile.html")
 
 
 @login_required
@@ -33,11 +38,6 @@ def courses(request):
     return render(request, "courses.html", {"cursos": cursos})
 
 
-def page_course(request, course_id):
-    curso = get_object_or_404(Courses, id=course_id)
-    return render(request, "page_course.html", {"curso": curso})
-
-
 @login_required
 def forum(request):
     return render(request, "forum.html")
@@ -45,12 +45,37 @@ def forum(request):
 
 @login_required
 def resources(request):
-    return render(request, "resource.html")
+    recursos = Recursos.objects.all()
+    return render(request, "resource.html", {"recursos": recursos})
 
 
 @login_required
 def workshops_webinars(request):
-    return render(request, "workshops.html")
+    workshop = Workshop.objects.all()
+    return render(request, "workshops.html", {"workshop": workshop})
+
+
+def page_forum(request, forum_id):
+    forum = get_object_or_404(Forum, id=forum_id)
+    mensagem = forum.mensagens.all().order_by('data')
+    return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem})
+
+
+def page_course(request, course_id):
+    curso = get_object_or_404(Courses, id=course_id)
+    exercicio = curso.exercicios.all()
+    return render(request, "page_course.html", {'curso': curso, 'exercicio': exercicio})
+
+
+def page_exercicios(request, exercicios_id):
+    exercicio = get_object_or_404(Exercicios, id=exercicios_id)
+    question = exercicio.perguntas.all()
+    return render(request, "exercises.html", {"exercicio": exercicio, "question": question})
+
+
+def page_workshops_webinars(request, workshop_id):
+    workshop = get_object_or_404(Workshop, id=workshop_id)
+    return render(request, "page_webinars.html", {'workshop': workshop})
 
 
 def login_v(request):
@@ -60,7 +85,7 @@ def login_v(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('inicio:homepage')
+            return redirect('profdevhub:homepage')
         return render(request, 'login.html', {'form': form})
     else:
         form = EmailLoginForm()

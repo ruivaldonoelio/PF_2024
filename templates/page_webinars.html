@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extra_title %}|Workshop & Webinars|{{ workshop.titulo }}{% endblock %}
+
 {% block content %}
 <div class="container" style="padding: 20px;">
     <div class="row">
@@ -12,19 +14,14 @@
                 height="124"
                 style="margin-bottom: 12px;"
             />
-            <h3 class="text-center">Ruivaldo Santana</h3>
-            <p class="text-break" style="font-size: 16px; line-height: 19px;">ruivaldo.foxrs@gmail.com</p>
-            <p>+351961250522</p>
+            <h3 class="text-center">{{ workshop.instrutor }}</h3>
+            <p class="text-break" style="font-size: 16px; line-height: 19px;">{{ workshop.instrutor.email }}</p>
+            <p>{{ workshop.instrutor.detalhes.telemovel }}</p>
             <button class="mainbtn_login setcont_nav">Inscrever</button>
         </div>
         <div class="col-md-7 d-flex flex-column flex-grow-1" style="padding: 20px;">
-            <h1>Heading</h1>
-            <p class="text-break">
-                aiocewoicne+ioceoi+ncve+oive+wiovnceópfvjéopfve´pofjv´vje´wporvje´porjve´pojvevfre´wpovjéwpqovj´qweopvj´qewporjcvéwqpojvéqwporjvéwporjvéwpovrje´wporjv+erv+eoirv+eqoirv+eowivje+qofivj+eoifv+eqwoirvc´+vihwievhc+woicvh+wiocvh+weivh+weiovhc+woeivhcwoihcvçowcbvçwoºeihc+weihc+woiehcºweoihcºweoihc+eowihcºowihjcºoihjºOIWHCÇOIEWCVAERHVOIIRVGºOIIHVBIIFRºVJERºVºVHJºEWRHJVGEOPRTGVOIRGTM+BOETYBHLT,PYBN,R6YHN,R~,NYU~LR6YU,JNH~6R,UHJÑP,Y7~LUJ,N~6YUJ,.NPYUJ~+PKUHTKLÇHMLORÇEWLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLÇVASDºOPCVJWEºAOIPCFHVºWEOICVHºEWOIVHCÇEDHCVÇAWEOHFVOWEIRHF+OIEWRHVFÇOEWIIHFVOIWEHFV+9UEWRHFWUEUHCFÇWIEUHDFIAWUEGHFLIUAWEBHCFLUYAEWBGCFLUYWEGVCFKLUWEBVCFLWEBGFLCWEBFOUWEGCFLIUEWHBCLOEUIWHCLIUEHWIUCWEUCHWEUICWEÇIUFHEWPURFHVSERVPSDHGLIISRTHGOHGERUHGÇWERIUHGPWE4I9VGW4URHVTÇIOWEHGV+EWRHGOHBGÇRETHIOÇOBG+HºBHººRTHJ+ºRYHºIRJY+IOPTRJPHGJRHOPJE5PHJ
-                <br />
-                <br />
-                eopi2d3+id+3ide+3
-            </p>
+            <h1>{{ workshop.titulo }}</h1>
+            <p class="text-break">{{ workshop.texto }}</p>
             <a href="#">Zoom</a><a href="#" style="margin-top: 6px;">Se quiser ver de novo pode fazer o download do gravação</a>
         </div>
     </div>

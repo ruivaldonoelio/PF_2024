@@ -1,32 +1,16 @@
-document.getElementById("toggleButton").addEventListener("click", function() {
-    var icon = document.getElementById("toggleIcon");
-    if (icon.classList.contains("fa-angle-down")) {
-        icon.classList.remove("fa-angle-down");
-        icon.classList.add("fa-angle-up");
-    } else {
-        icon.classList.remove("fa-angle-up");
-        icon.classList.add("fa-angle-down");
-    }
-});
+document.querySelectorAll('.navbar-toggler').forEach(button => {
+    button.addEventListener('click', function() {
+        const icon = this.querySelector('.toggle-icon');
+        const isCollapsed = this.getAttribute('aria-expanded') === 'true';
 
-document.getElementById("toggleButton-1").addEventListener("click", function() {
-    var icon = document.getElementById("ttoggleIcon-1");
-    if (icon.classList.contains("fa-angle-down")) {
-        icon.classList.remove("fa-angle-down");
-        icon.classList.add("fa-angle-up");
-    } else {
-        icon.classList.remove("fa-angle-up");
-        icon.classList.add("fa-angle-down");
-    }
-});
-
-document.getElementById("toggleButton-2").addEventListener("click", function() {
-    var icon = document.getElementById("toggleIcon-2");
-    if (icon.classList.contains("fa-angle-down")) {
-        icon.classList.remove("fa-angle-down");
-        icon.classList.add("fa-angle-up");
-    } else {
-        icon.classList.remove("fa-angle-up");
-        icon.classList.add("fa-angle-down");
-    }
+        if (isCollapsed) {
+            icon.innerHTML = `
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 15-7-7-7 7" />
+            `;
+        } else {
+            icon.innerHTML = `
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
+            `;
+        }
+    });
 });

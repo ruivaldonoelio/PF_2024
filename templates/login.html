@@ -18,7 +18,7 @@
     </div>
     <div class="row">
         <div class="col-md-12 d-flex flex-column align-items-center">
-            <form class="form" action="{% url 'inicio:login'%}" method="post">
+            <form class="form" action="{% url 'profdevhub:login'%}" method="post">
                 {% csrf_token %}
                 <div class="title">Login<br /></div>
                 <input type="text" placeholder="Email" name="username" class="input" />

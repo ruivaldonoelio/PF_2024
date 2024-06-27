@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extra_title %}|Cursos|{{ curso.titulo }}{% endblock %}
+
 {% block content %}
 <div id="background" class="container" style="padding: 20px;">
     <div class="row">
@@ -17,18 +19,40 @@
             <p style="margin-bottom: 0;">+351961250522</p>
             <div class="d-flex justify-content-center" style="gap: 10px;margin-bottom: 5px;">
                 <a href="#">Zoom</a>
-                <a href="#">Forum</a>   
+                <a href="{% url 'profdevhub:page_forum' curso.forum.id %}">Forum</a>   
             </div>
             <button class="mainbtn_login setcont_nav">Inscrever</button>
         </div>
         <div class="col-md-7 flex-grow-1">
             <h1>{{ curso.titulo }}</h1>
-            <p class="text-break">{{ curso.texto }}</p>
-            <div id="bt_cursos">
+            <div id="bt_descricao">
                 <div class="col">
                     <button
-                        class="btn btn-primary text-start d-flex justify-content-between align-items-center navbar-toggler"
-                        id="toggleButton"
+                        class="btn btn-primary d-flex justify-content-between align-items-center navbar-toggler"
+                        id="toggleButton-0"
+                        type="button"
+                        style="width: 100%; background: var(--bs-btn-disabled-color); color: var(--bs-body-color); height: 37px; font-size: 19px; font-weight: bold; border-color: #d5d5d5; border-bottom-width: 1px; border-bottom-style: solid;"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#descricao"
+                    >
+                        &nbsp; &nbsp;Descrição
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="row collapse" id="descricao" style="margin: 2%;">
+                    <div class="col">
+                        <ol style="margin: 0;">
+                            {{ curso.texto|safe }}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div id="bt_conteudo">
+                <div class="col">
+                    <button
+                        class="btn btn-primary d-flex justify-content-between align-items-center navbar-toggler"
                         type="button"
                         style="
                             width: 100%;
@@ -44,7 +68,10 @@
                         data-bs-toggle="collapse"
                         data-bs-target="#conteudo"
                     >
-                        &nbsp; &nbsp;Conteúdo<i class="fas fa-angle-down" id="toggleIcon" style="margin-right: 2%;"></i>
+                        &nbsp; &nbsp;Conteúdo
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
+                        </svg>
                     </button>
                 </div>
                 <div class="row collapse" id="conteudo" style="margin: 2%;">
@@ -60,8 +87,7 @@
             <div id="bt_exercicios">
                 <div class="col">
                     <button
-                        class="btn btn-primary text-start d-flex justify-content-between align-items-center navbar-toggler"
-                        id="toggleButton-1"
+                        class="btn btn-primary d-flex justify-content-between align-items-center navbar-toggler"
                         type="button"
                         style="
                             width: 100%;
@@ -77,13 +103,18 @@
                         data-bs-toggle="collapse"
                         data-bs-target="#exercicio"
                     >
-                        &nbsp; &nbsp;Exercícios<i class="fas fa-angle-down" id="toggleIcon-1" style="margin-right: 2%;"></i>
+                        &nbsp; &nbsp;Exercícios
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
+                        </svg>
                     </button>
                 </div>
                 <div class="row collapse" id="exercicio" style="margin: 2%;">
                     <div class="col">
                         <ol style="margin: 0;">
-                            <li><a href="#" style="margin-left: 1px; height: initial; margin-right: 7px;">Responder</a>Limite: 13/07/1213</li>
+                            {% for ex in exercicio %}
+                                <li><a href="{% url 'profdevhub:exercicios' ex.id %} " style="margin-left: 1px; height: initial; margin-right: 7px;" target="_blank">{{ ex.nome }}</a>Limite: {{ ex.data_encerramento }}</li>
+                            {% endfor %}
                         </ol>
                     </div>
                 </div>
@@ -91,8 +122,7 @@
             <div id="bt_questionario">
                 <div class="col">
                     <button
-                        class="btn btn-primary text-start d-flex justify-content-between align-items-center navbar-toggler"
-                        id="toggleButton-2"
+                        class="btn btn-primary d-flex justify-content-between align-items-center navbar-toggler"
                         type="button"
                         style="
                             width: 100%;
@@ -108,7 +138,10 @@
                         data-bs-toggle="collapse"
                         data-bs-target="#quest"
                     >
-                        &nbsp; &nbsp;Questionários&nbsp;<i class="fas fa-angle-down" id="toggleIcon-2" style="margin-right: 2%;"></i>
+                        &nbsp; &nbsp;Questionários&nbsp;
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
+                        </svg>
                     </button>
                 </div>
                 <div class="row collapse" id="quest" style="margin: 2%;">
@@ -123,3 +156,5 @@
     </div>
 </div>
 {% endblock %}
+
+{% block extra_js %}<script src="{% static '../static/js/untitled.js' %}"></script>{% endblock %}

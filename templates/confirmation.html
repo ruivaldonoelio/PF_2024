@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_title %}|Confirmação de email{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/confirm.css'%}" />
 {% endblock %}
@@ -8,7 +10,7 @@
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" id="background" style="height: 100%;">
     <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center" style="padding-top: 10px; padding-bottom: 10px;">
-        <form class="form" action="{% url 'inicio:confirmar_email'%}" method="post">
+        <form class="form" action="{% url 'profdevhub:confirmar_email'%}" method="post">
             {% csrf_token %}
             <div class="title">OTP</div>
             <div class="title">Verification Code</div>
