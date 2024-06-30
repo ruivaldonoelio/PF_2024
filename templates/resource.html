@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extra_title %}|Recursos{% endblock %}
+{% block extra_title %}| Recursos{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/pages.css'%}" />
@@ -10,9 +10,14 @@
 {% block content %}
 <div class="container" id="background">
     <div class="col d-flex flex-column justify-content-center align-items-center">
-        <header class="text-center mt-5">
-            <h1>Educational Resources</h1>
-            <p>Explore a variety of educational resources shared by fellow educators.</p>
+        <header class="text-center my-4">
+            <h1>Recursos educacionais</h1>
+            <p class="lead">Explore uma variedade de recursos educacionais compartilhados por colegas educadores.</p>
+            <form class="workshop_search" action="{% url 'profdevhub:resources' %}" method="post">
+                {% csrf_token %}
+                <input type="text" class="form-control search" name="search" placeholder="Search...">
+                <button type="submit" class="btn btn-primary" style="width: 100px">Search</button>
+            </form>
         </header>
         <main class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4">

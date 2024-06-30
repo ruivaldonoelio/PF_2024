@@ -87,3 +87,21 @@ header p {
   text-decoration: underline;
 }
 
+.workshop_search{
+  display: flex;
+  gap: 5%;
+}
+
+@media (max-width: 576px) {
+  .workshop_search {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .search {
+    width: 80%;
+  }
+}

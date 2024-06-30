@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extra_title %}|Workshops & Webinars{% endblock %}
+{% block extra_title %}| Workshops & Webinars{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/pages.css'%}" />
@@ -11,43 +11,49 @@
 <div class="container" id="background">
     <div class="col d-flex flex-column justify-content-center align-items-center">
         <header class="text-center my-4">
-            <h1>Workshops and Webinars for Educators</h1>
-            <p>Explore and enroll in Workshops and Webinars to enhance your teaching skills.</p>
-            <form class="row g-3">
-                <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select">
-                        <option selected>Category</option>
-                        <option value="1">Workshops</option>
-                        <option value="2">Webinars</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
+            <h1>Workshops & Webinars para educadores</h1>
+            <p class="lead">Explore e inscreva-se em workshops e webinars para aprimorar suas habilidades de ensino.</p>
+            <form class="workshop_search" action="{% url 'profdevhub:workshops_webinars' %}" method="post">
+                {% csrf_token %}
+                <input type="text" class="form-control search" name="search" placeholder="Search...">
+                <select class="form-select" name="tipo" style=" width: 120px">
+                    <option selected>Categoria</option>
+                    <option value="Work">Workshops</option>
+                    <option value="Web">Webinars</option>
+                </select>
+                <button type="submit" class="btn btn-primary" style="width: 100px">Search</button>
             </form>
 
         </header>
 
-        <main class="container">
-
+        <main class="container d-flex ">
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 
                 {% for work in workshop %}
-                    <div class="col">
+                    <div class="col" style="min-width: 348px">
                         <div class="card h-100">
                             <div class="card-header">
                                 {{ work.titulo }}
                             </div>
                             <div class="card-body">
                                 <p class="card-text">{{ work.descricao }}</p>
-                                <p class="card-text"><small class="text-muted">Intrutor: {{ work.instrutor }}</small></p>
+                                <p class="card-text" style="margin-bottom: 0"><small class="text-muted">Instrutor: {{ work.instrutor }}</small></p>
+                                <p class="card-text"><small class="text-muted">Tipo: {{ work.get_tipo_display }}</small></p>
                             </div>
-                            <div class="card-footer d-flex justify-content-between align-items-center">
-                                <a style= "margin-left:4%" href="{% url 'profdevhub:page_workshops_webinars' work.id %} ">Detalhes</a>
-                                <button type="button" class="btn btn-primary" href="{% url 'profdevhub:page_workshops_webinars' work.id %}">Enroll</button>
+                        
+                            <div class="card-footer d-flex justify-content-between align-items-center text-center" style= "line-height: 1;">
+                                <a href="{% url 'profdevhub:page_workshops_webinars' work.id %} ">Detalhes</a>
+                                {% if work.data_fim >= today and work.data_inicio <= today %}
+                                    <p style="color: rgb(255,198,30); margin-bottom: 0;"> A decorrer </p>
+                                {% elif work.fim_inscricao >= today  and work.inicio_inscricao <= today and work.limite_inscritos != work.inscritos.count%}
+                                    <p class="ant-typography" style="margin-bottom: 0;">Vagas: {{ work.inscritos.count }}/{{ work.limite_inscritos }}</p>
+                                    <p style="color: rgb(91,191,33); margin-bottom: 0;">Incrições abertas</p>
+                                {% elif work.limite_inscritos == work.inscritos.count and work.fim_inscricao >= today  and work.inicio_inscricao <= today%}
+                                    <p class="ant-typography" style="margin-bottom: 0;">Vagas: {{ work.inscritos.count }}/{{ work.limite_inscritos }}</p>
+                                    <p style="color: rgb(255,198,30); margin-bottom: 0;">Sem vagas</p>
+                                {% elif work.fim_inscricao < today %}
+                                    <p style="color: rgb(191,33,33); margin-bottom: 0;">Incrições fechadas</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

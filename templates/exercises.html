@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extra_title %}|Exercício|{{ exercicio.nome }}{% endblock %}
+{% block extra_title %}| Exercício|{{ exercicio.nome }}{% endblock %}
 
 {% block extra_css %}<link rel="stylesheet" href="{% static '../static/css/new_things.css'%}" />{% endblock %}
 
@@ -12,16 +12,18 @@
             <span class="form__title">{{ exercicio.nome }}</span>
         </div>
         <div id="form-container">
-            <form style="padding: 15px 20px;">
-                {% for ques in question %}
+            <form style="padding: 15px 20px;" action="{% url 'profdevhub:exercicios' exercicio.id %}" method="post">
+                {% csrf_token %}
+                {% for ques in exercicio.perguntas.all %}
                     <label class="input__label">{{ ques.texto }}</label>
-                    <textarea class="input__field_Q" type="text" name="question1" style="width: 100%;"></textarea>
+                    <textarea class="input__field_Q" type="text" name="{{ ques.id }}" style="width: 100%;"></textarea>
                 {% endfor %}
+               <div class="form__footer">
+                    <button type="submit" class="button button--primary">Submeter</button>
+                </div> 
             </form>
         </div>
-        <div class="form__footer">
-            <button class="button button--primary">Submeter</button>
-        </div>
+        
     </div>
 </div>
 {% endblock %}

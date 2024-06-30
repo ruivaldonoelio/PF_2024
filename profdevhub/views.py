@@ -3,6 +3,9 @@ from .form import RegistroUsuarioForm, UserDetailsForm, PasswordResetForm, Email
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
 from .models import *
+from django.urls import reverse
+from datetime import date
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 import smtplib
@@ -24,58 +27,201 @@ def homepage(request):
 
 @login_required
 def perfil(request):
-    return render(request, "profile.html")
+    user = request.user
+    detalhes = get_object_or_404(User_details, id=user.id)
 
+    if request.method == "POST":
 
-@login_required
-def contributions(request):
-    return render(request, "mypage.html")
+        if request.POST.get("first_name"):
+            user.first_name = request.POST.get("first_name")
+
+        if request.POST.get("last_name"):
+            user.last_name = request.POST.get("last_name")
+
+        if request.POST.get("email"):
+            user.email = request.POST.get("email")
+
+        if request.POST.get("telemovel"):
+            detalhes.telemovel = request.POST.get("telemovel")
+
+        if request.POST.get("endereco"):
+            detalhes.endereco = request.POST.get("endereco")
+
+        if request.POST.get("cidade"):
+            detalhes.cidade = request.POST.get("cidade")
+
+        if request.POST.get("codigo_postal"):
+            codigo_postal = request.POST.get("codigo_postal")
+
+        try:
+            user.save()
+            detalhes.save()
+        except:
+            return redirect(reverse('profdevhub:page_forum'))
+
+    return render(request, "profile.html", {"user": request.user})
 
 
 @login_required
 def courses(request):
     cursos = Courses.objects.all()
-    return render(request, "courses.html", {"cursos": cursos})
-
-
-@login_required
-def forum(request):
-    return render(request, "forum.html")
-
-
-@login_required
-def resources(request):
-    recursos = Recursos.objects.all()
-    return render(request, "resource.html", {"recursos": recursos})
+    today = date.today()
+    return render(request, "courses.html", {"cursos": cursos, "today": today})
 
 
 @login_required
 def workshops_webinars(request):
-    workshop = Workshop.objects.all()
-    return render(request, "workshops.html", {"workshop": workshop})
+    if request.method == 'POST':
+        search = request.POST.get("search")
+        tipo = request.POST.get("tipo")
+
+        if search and tipo != "Categoria":
+            workshop = Workshop.objects.filter(titulo__icontains=search, tipo=tipo)
+        elif search and tipo == "Categoria":
+            workshop = Workshop.objects.filter(titulo__icontains=search)
+        elif tipo != "Categoria" and not search:
+            workshop = Workshop.objects.filter(tipo=tipo)
+        elif tipo == "Categoria":
+            workshop = Workshop.objects.all()
+    else:
+        workshop = Workshop.objects.all()
+
+    today = date.today()
+    return render(request, "workshops.html", {"workshop": workshop, "today": today})
+
+
+@login_required
+def forum(request):
+    chat = Forum.objects.all().filter(curso_id=None)
+    return render(request, "forum.html", {"chat": chat})
+
+
+@login_required
+def resources(request):
+    if request.method == "POST":
+        search = request.POST.get("search")
+        if search:
+            recursos = Recursos.objects.filter(nome__icontains=search)
+        else:
+            recursos = Recursos.objects.all()
+    else:
+        recursos = Recursos.objects.all()
+
+    return render(request, "resource.html", {"recursos": recursos})
 
 
 def page_forum(request, forum_id):
-    forum = get_object_or_404(Forum, id=forum_id)
-    mensagem = forum.mensagens.all().order_by('data')
-    return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem})
+    try:
+        forum = get_object_or_404(Forum, id=forum_id)
+    except:
+        return redirect('profdevhub:forum')
+    else:
+        if request.method == 'POST':
+            message = request.POST.get('message')
+
+            if message:
+                enviar = Mensagens(forum=forum, emissor=request.user, texto=message)
+                enviar.save()
+                return redirect(reverse('profdevhub:page_forum', args=[forum_id]))
+
+        mensagem = forum.mensagens.all().order_by('data')
+
+        if forum.curso_id is None:
+            return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem})
+        else:
+            inscrito = forum.curso.inscritos.all().filter(user_id=request.user.id).exists()
+            if inscrito:
+                return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem})
+            else:
+                return redirect('profdevhub:forum')
 
 
 def page_course(request, course_id):
-    curso = get_object_or_404(Courses, id=course_id)
-    exercicio = curso.exercicios.all()
-    return render(request, "page_course.html", {'curso': curso, 'exercicio': exercicio})
+    try:
+        curso = get_object_or_404(Courses, id=course_id)
+    except:
+        return redirect('profdevhub:courses')
+
+    inscrito = curso.inscritos.filter(user_id=request.user.id).exists()
+    today = date.today()
+    return render(request, "page_course.html", {'curso': curso, "inscrito": inscrito, "today": today})
 
 
 def page_exercicios(request, exercicios_id):
-    exercicio = get_object_or_404(Exercicios, id=exercicios_id)
-    question = exercicio.perguntas.all()
-    return render(request, "exercises.html", {"exercicio": exercicio, "question": question})
+    try:
+        exercicio = get_object_or_404(Exercicios, id=exercicios_id)
+    except:
+        return redirect('profdevhub:courses')
+    else:
+
+        inscrito = exercicio.curso.inscritos.filter(user_id=request.user.id).exists()
+
+        if request.method == 'POST':
+            for perguntas in exercicio.perguntas.all():
+                if request.POST.get(str(perguntas.id)):
+                    Submit.objects.create(pergunta=perguntas, student=request.user, resposta=request.POST.get(str(perguntas.id)))
+
+            curso_id = exercicio.curso.id
+            return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
+
+        if inscrito:
+            return render(request, "exercises.html", {"exercicio": exercicio})
+        else: return redirect('profdevhub:courses')
 
 
 def page_workshops_webinars(request, workshop_id):
+    try:
+        workshop = get_object_or_404(Workshop, id=workshop_id)
+    except:
+        return redirect('profdevhub:workshops_webinars')
+
+    inscrito = workshop.inscritos.filter(user_id=request.user.id).exists()
+    today = date.today()
+    return render(request, "page_webinars.html", {'workshop': workshop, 'inscrito': inscrito, 'today': today})
+
+
+def inscricao_anular_curso(request, curso_id):
+    user = request.user
+    curso = get_object_or_404(Courses, id=curso_id)
+
+    inscrito = curso.inscritos.filter(user_id=user.id).exists()
+    tempo = curso.inicio_inscricao <= date.today() and curso.fim_inscricao >= date.today()
+    vaga = curso.limite_inscritos != curso.inscritos.count()
+
+    if not inscrito and vaga and tempo:
+        inscricao = CursoIncritos(curso=curso, user=user)
+        inscricao.save()
+        messages.success(request, 'Inscrição realizada com sucesso!')
+    elif inscrito or tempo:
+        inscricao = get_object_or_404(CursoIncritos, curso_id=curso.id, user_id=user.id)
+        inscricao.delete()
+        messages.success(request, 'Inscrição removida com sucesso.')
+    else:
+        messages.warning(request, 'Você já está inscrito neste curso.')
+
+    return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
+
+
+def inscricao_anular_workshop(request, workshop_id):
+    user = request.user
     workshop = get_object_or_404(Workshop, id=workshop_id)
-    return render(request, "page_webinars.html", {'workshop': workshop})
+
+    inscrito = workshop.inscritos.filter(user_id=user.id).exists()
+    tempo = workshop.inicio_inscricao <= date.today() and workshop.fim_inscricao >= date.today()
+    vaga = workshop.limite_inscritos != workshop.inscritos.count()
+
+    if not inscrito and vaga and tempo:
+        inscricao = WorkshopInscritos(workshop=workshop, user=user)
+        inscricao.save()
+        messages.success(request, 'Inscrição realizada com sucesso!')
+    elif inscrito or tempo:
+        inscricao = get_object_or_404(WorkshopInscritos, workshop=workshop.id, user_id=user.id)
+        inscricao.delete()
+        messages.success(request, 'Inscrição removida com sucesso.')
+    else:
+        messages.warning(request, 'Ja não da')
+
+    return redirect(reverse('profdevhub:page_workshops_webinars', args=[workshop_id]))
 
 
 def login_v(request):
@@ -185,7 +331,11 @@ def reset_password(request):
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
         if form.is_valid():
-            user_email = request.session['user_email']
+            if request.session['user_email']:
+                user_email = request.session['user_email']
+            if request.user.email:
+                user_email = request.user.email
+
             usuario = User.objects.get(email=user_email)
             nova_senha = form.cleaned_data['password']
             usuario.set_password(nova_senha)

@@ -31,6 +31,14 @@ class Courses(models.Model):
         return self.titulo
 
 
+class CursoIncritos(models.Model):
+    curso = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name='inscritos')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cursos')
+
+    def __str__(self):
+        return f'{self.user.username} in {self.curso.titulo}'
+
+
 class Conteudo(models.Model):
     curso = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name='conteudos')
     nome = models.CharField(max_length=255)
@@ -96,12 +104,21 @@ class Workshop(models.Model):
     titulo = models.CharField(max_length=255)
     descricao = models.CharField(max_length=255)
     instrutor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='workshops')
+    inicio_inscricao = models.DateField(blank=True, null=True)
     fim_inscricao = models.DateField()
     data_inicio = models.DateField()
+    data_fim = models.DateField(blank=True, null=True)
     limite_inscritos = models.IntegerField()
     texto = models.TextField(max_length=None)
     link_zoom = models.URLField()
     arquivo = models.FileField(upload_to='workshop/', blank=True)
+
+    escolha = [
+        ('Work', 'WorkShop'),
+        ('Web', 'Webinars'),
+    ]
+
+    tipo = models.CharField(max_length=10, choices=escolha, blank=True, null=True)
 
     def __str__(self):
         return self.titulo
@@ -110,6 +127,14 @@ class Workshop(models.Model):
         if not self.instrutor.is_superuser:
             raise ValueError("Somente superusuários podem adicionar workshops.")
         super(Workshop, self).save(*args, **kwargs)
+
+
+class WorkshopInscritos(models.Model):
+    workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE, related_name='inscritos')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='workshop')
+
+    def __str__(self):
+        return f'{self.user.username} in {self.workshop.titulo}'
 
 
 class Forum(models.Model):

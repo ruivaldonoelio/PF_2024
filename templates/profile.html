@@ -1,7 +1,7 @@
 {% extends "base.html"%}
 {% load static %}
 
-{% block extra_title %}|Perfil{% endblock %}
+{% block extra_title %}| Perfil{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/profile.css'%}" />
@@ -11,8 +11,8 @@
 <div class="container" id="background">
     <div class="col d-flex flex-column justify-content-center align-items-center module" style="width: 100%; max-width: 500px;">
         <div class="col-xxl-8 col-xl-10 col-lg-12 justify-content-center" style="width: 100%;">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-                <h1 class="flex-grow-1">Profile</h1>
+            <div class="d-flex align-items-center justify-content-between mb-3 text-center">
+                <h1 class="flex-grow-1">Perfil</h1>
             </div>
             <div class="d-flex justify-content-center mb-3 position-relative">
                 <span class="avatar avatar-circle" style="width: 80px; height: 80px; font-size: 18px;">
@@ -25,55 +25,46 @@
                 </span>
                 <input type="file" id="profileImageUpload" class="file-input" accept="image/*" />
             </div>
-            <form class="needs-validation" id="profileForm" novalidate>
-                <div class="">
-                    <label for="Username" class="form-label">Username</label>
-                    <input id="Username" class="form-control" type="text" value="João Pedro" />
-                </div>
-                <div class="mb-3">
-                    <label for="first_name" class="form-label">First Name</label>
-                    <input id="first_name" class="form-control" type="text" value="ok" />
-                </div>
-                <div class="mb-3">
-                    <label for="last_name" class="form-label">Last Name</label>
-                    <input id="last_name" class="form-control" type="text" value="ok" />
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input autocomplete="email" placeholder="Your email" id="email" class="form-control" type="email" />
-                </div>
-                <div class="mb-3">
-                    <label for="telemovel" class="form-label">Telemovel</label>
-                    <input id="telemovel" class="form-control" type="tel" />
-                </div>
-                <div class="mb-3">
-                    <label for="endereco" class="form-label">Endereço</label>
-                    <input id="endereco" class="form-control" type="text" value="ok" />
-                </div>
-                <div class="mb-3">
-                    <label for="cidade" class="form-label">Cidade</label>
-                    <input id="cidade" class="form-control" type="text" value="ok" />
-                </div>
-                <div class="mb-3">
-                    <label for="cp" class="form-label">Codigo-Postal</label>
-                    <input id="cp" class="form-control" type="text" value="ok" />
-                </div>
+            <form class="needs-validation" id="profileForm" action="{% url 'profdevhub:perfil' %}" method="post">
+                {% csrf_token %}
+                
+                <label for="first_name" class="form-label">Primeiro Nome</label>
+                <input id="first_name" name="first_name" class="form-control" type="text" value="{{ user.first_name }}" />
+
+                <label for="last_name" class="form-label">Ultimo Nome</label>
+                <input id="last_name" name="last_name" class="form-control" type="text" value="{{ user.last_name }}">
+
+                <label for="email" class="form-label">Email</label>
+                <input autocomplete="email" name="email" placeholder="Your email" id="email" class="form-control" type="email" value="{{ user.email }}">
+
+                <label for="telemovel" class="form-label">Telemovel</label>
+                <input id="endereco" name="telemovel" class="form-control" type="tel" value={{ user.detalhes.telemovel }}>
+
+                <label for="endereco" class="form-label">Endereço</label>
+                <input id="endereco" name="endereco" class="form-control" type="text" value={{ user.detalhes.endereco }}>
+
+                <label for="cidade" class="form-label">Cidade</label>
+                <input id="cidade" name="cidade" class="form-control" type="text" value="{{ user.detalhes.cidade }}">
+
+                <label for="cp" class="form-label">Codigo-Postal</label>
+                <input id="cp" name="codigo_postal" class="form-control" type="text" value={{ user.detalhes.codigo_postal }}>
+                
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">
                         <span>Save</span>
                     </button>
                 </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">
-                        <span>Reset Password</span>
-                    </button>
-                </div>
-                <div class="mb-3">
-                    <button type="button" class="btn btn-outline-secondary btn-logout">
-                        <span>Logout</span>
-                    </button>
-                </div>
             </form>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary" onclick="url_password()">
+                    <span>Reset Password</span>
+                </button>
+            </div>
+            <div class="mb-3">
+                <button type="button" class="btn btn-outline-secondary btn-logout" onclick="url_logout()">
+                    <span>Logout</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

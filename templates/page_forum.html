@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extra_title %}|Forum|{{ forum.nome }}{% endblock %}
+{% block extra_title %}| Forum|{{ forum.nome }}{% endblock %}
 
 {% block extra_css %}<link rel="stylesheet" href="{% static '../static/css/conversa.css'%}" />{% endblock %}
 
@@ -9,7 +9,7 @@
 <div id="background" class="container d-flex justify-content-center align-items-center" style="padding: 12px;">
     <div class="card">
         <span class="title">{{ forum.nome }}</span>
-        <div class="comments">
+        <div class="comments" id="myScrollableDiv">
             <div class="comment-container">
                 
                 {% for mensagem in mensagens %}
@@ -66,8 +66,9 @@
 
         <div class="text-box">
             <div class="box-container">
-                <form>
-                     <textarea placeholder="Reply"></textarea>
+                <form action="{% url 'profdevhub:page_forum' forum.id %}" method="post">
+                    {% csrf_token %}
+                     <textarea name= "message" placeholder="Reply"></textarea>
                     <div>
                         <div class="formatting d-flex">
                             <button type="submit" class="send" title="Send">
@@ -85,9 +86,12 @@
                         </div>
                     </div>
                 </form>
-               
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static '../static/js/scroll.js' %}"></script>
 {% endblock %}

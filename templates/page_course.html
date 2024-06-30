@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extra_title %}|Cursos|{{ curso.titulo }}{% endblock %}
+{% block extra_title %}| Cursos|{{ curso.titulo }}{% endblock %}
 
 {% block content %}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 <div id="background" class="container" style="padding: 20px;">
     <div class="row">
         <div class="col-md-3 col-lg-2 text-center d-md-flex flex-column align-items-md-center" style="padding: 20px; height: 40%;">
@@ -15,13 +22,40 @@
                 style="margin-bottom: 12px;"
             />
             <h3 class="text-center">Ruivaldo Santana</h3>
-            <p class="text-break" style="font-size: 16px; line-height: 19px; margin-bottom: 10px;">ruivaldo.foxrs@gmail.com</p>
-            <p style="margin-bottom: 0;">+351961250522</p>
-            <div class="d-flex justify-content-center" style="gap: 10px;margin-bottom: 5px;">
-                <a href="#">Zoom</a>
-                <a href="{% url 'profdevhub:page_forum' curso.forum.id %}">Forum</a>   
-            </div>
-            <button class="mainbtn_login setcont_nav">Inscrever</button>
+        
+                {% if inscrito and curso.data_fim >= today and curso.data_inicio <= today%}
+                    <p class="text-break" style="font-size: 16px; line-height: 19px; margin-bottom: 10px;">ruivaldo.foxrs@gmail.com</p>
+                    <p style="margin-bottom: 0;">+351961250522</p>
+                    <div class="d-flex justify-content-center" style="gap: 10px;margin-bottom: 5px;">
+                        <a href="#">Zoom</a>
+                        <a href="{% url 'profdevhub:page_forum' curso.forum.id %}">Forum</a>   
+                    </div>
+                {% endif %}
+        
+            {% if not inscrito and curso.inicio_inscricao <= today and curso.fim_inscricao >= today and curso.limite_inscritos != curso.inscritos.count %}
+                <form action="{% url 'profdevhub:inscricao_anular_curso' curso.id%}">
+                    {% csrf_token %}
+                    <button class="mainbtn_login" style="margin: 5px 0" type="submit">Inscrever</button>
+                </form>
+            {% elif inscrito and curso.inicio_inscricao <= today and curso.fim_inscricao >= today%}
+                <form action="{% url 'profdevhub:inscricao_anular_curso' curso.id%}">
+                    {% csrf_token %}
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit"> Anular inscrição</button>
+                </form>
+            {% endif %}
+        
+            {% if curso.data_fim >= today and curso.data_inicio <= today %}
+                <p style="color: rgb(255,198,30)"> A decorrer </p>
+            {% elif curso.fim_inscricao >= today  and curso.inicio_inscricao <= today and curso.limite_inscritos != curso.inscritos.count%}
+                <p style="color: rgb(91,191,33); margin-bottom: 0">Incrições abertas</p>
+                <p class="ant-typography" style="margin-bottom: 0">Vagas: {{ curso.inscritos.count }}/{{ curso.limite_inscritos }}</p>
+            {% elif curso.limite_inscritos == curso.inscritos.count and curso.fim_inscricao >= today  and curso.inicio_inscricao <= today%}
+                <p style="color: rgb(255,198,30); margin-bottom: 0">Sem vagas</p>
+                <p class="ant-typography" style="margin-bottom: 0">Vagas: {{ curso.inscritos.count }}/{{ curso.limite_inscritos }}</p>
+            {% elif curso.fim_inscricao < today %}
+                <p style="color: rgb(191,33,33); margin-bottom: 0">Incrições fechadas</p>
+            {% endif %}
+
         </div>
         <div class="col-md-7 flex-grow-1">
             <h1>{{ curso.titulo }}</h1>
@@ -49,109 +83,111 @@
                     </div>
                 </div>
             </div>
-            <div id="bt_conteudo">
-                <div class="col">
-                    <button
-                        class="btn btn-primary d-flex justify-content-between align-items-center navbar-toggler"
-                        type="button"
-                        style="
-                            width: 100%;
-                            background: var(--bs-btn-disabled-color);
-                            color: var(--bs-body-color);
-                            height: 37px;
-                            font-size: 19px;
-                            font-weight: bold;
-                            border-color: #d5d5d5;
-                            border-bottom-width: 1px;
-                            border-bottom-style: solid;
-                        "
-                        data-bs-toggle="collapse"
-                        data-bs-target="#conteudo"
-                    >
-                        &nbsp; &nbsp;Conteúdo
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="row collapse" id="conteudo" style="margin: 2%;">
+            {% if inscrito and curso.data_fim >= today and curso.data_inicio <= today%}
+                <div id="bt_conteudo">
                     <div class="col">
-                        <ol style="margin: 0;">
-                            <li><a href="#" style="margin-left: 1px;">Aula</a></li>
-                            <li><a href="#" style="margin-left: 1px;">Aula</a></li>
-                        </ol>
+                        <button
+                            class="btn btn-primary d-flex justify-content-between align-items-center navbar-toggler"
+                            type="button"
+                            style="
+                                width: 100%;
+                                background: var(--bs-btn-disabled-color);
+                                color: var(--bs-body-color);
+                                height: 37px;
+                                font-size: 19px;
+                                font-weight: bold;
+                                border-color: #d5d5d5;
+                                border-bottom-width: 1px;
+                                border-bottom-style: solid;
+                            "
+                            data-bs-toggle="collapse"
+                            data-bs-target="#conteudo"
+                        >
+                            &nbsp; &nbsp;Conteúdo
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
+                            </svg>
+                        </button>
                     </div>
-                    <div class="col"></div>
-                </div>
-            </div>
-            <div id="bt_exercicios">
-                <div class="col">
-                    <button
-                        class="btn btn-primary d-flex justify-content-between align-items-center navbar-toggler"
-                        type="button"
-                        style="
-                            width: 100%;
-                            background: var(--bs-btn-disabled-color);
-                            color: var(--bs-body-color);
-                            height: 37px;
-                            font-size: 19px;
-                            font-weight: bold;
-                            border-color: #d5d5d5;
-                            border-bottom-width: 1px;
-                            border-bottom-style: solid;
-                        "
-                        data-bs-toggle="collapse"
-                        data-bs-target="#exercicio"
-                    >
-                        &nbsp; &nbsp;Exercícios
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="row collapse" id="exercicio" style="margin: 2%;">
-                    <div class="col">
-                        <ol style="margin: 0;">
-                            {% for ex in exercicio %}
-                                <li><a href="{% url 'profdevhub:exercicios' ex.id %} " style="margin-left: 1px; height: initial; margin-right: 7px;" target="_blank">{{ ex.nome }}</a>Limite: {{ ex.data_encerramento }}</li>
-                            {% endfor %}
-                        </ol>
+                    <div class="row collapse" id="conteudo" style="margin: 2%;">
+                        <div class="col">
+                            <ol style="margin: 0;">
+                                <li><a href="#" style="margin-left: 1px;">Aula</a></li>
+                                <li><a href="#" style="margin-left: 1px;">Aula</a></li>
+                            </ol>
+                        </div>
+                        <div class="col"></div>
                     </div>
                 </div>
-            </div>
-            <div id="bt_questionario">
-                <div class="col">
-                    <button
-                        class="btn btn-primary d-flex justify-content-between align-items-center navbar-toggler"
-                        type="button"
-                        style="
-                            width: 100%;
-                            background: var(--bs-btn-disabled-color);
-                            color: var(--bs-body-color);
-                            height: 37px;
-                            font-size: 19px;
-                            font-weight: bold;
-                            border-color: #d5d5d5;
-                            border-bottom-width: 1px;
-                            border-bottom-style: solid;
-                        "
-                        data-bs-toggle="collapse"
-                        data-bs-target="#quest"
-                    >
-                        &nbsp; &nbsp;Questionários&nbsp;
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="row collapse" id="quest" style="margin: 2%;">
+                <div id="bt_exercicios">
                     <div class="col">
-                        <ol style="margin: 0;">
-                            <li><a href="#" style="margin-left: 1px; height: initial; margin-right: 7px;" download="">Fazer download</a></li>
-                        </ol>
+                        <button
+                            class="btn btn-primary d-flex justify-content-between align-items-center navbar-toggler"
+                            type="button"
+                            style="
+                                width: 100%;
+                                background: var(--bs-btn-disabled-color);
+                                color: var(--bs-body-color);
+                                height: 37px;
+                                font-size: 19px;
+                                font-weight: bold;
+                                border-color: #d5d5d5;
+                                border-bottom-width: 1px;
+                                border-bottom-style: solid;
+                            "
+                            data-bs-toggle="collapse"
+                            data-bs-target="#exercicio"
+                        >
+                            &nbsp; &nbsp;Exercícios
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="row collapse" id="exercicio" style="margin: 2%;">
+                        <div class="col">
+                            <ol style="margin: 0;">
+                                {% for ex in curso.exercicios.all %}
+                                    <li><a href="{% url 'profdevhub:exercicios' ex.id %} " style="margin-left: 1px; height: initial; margin-right: 7px;" target="_blank">{{ ex.nome }}</a>Limite: {{ ex.data_encerramento }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div id="bt_questionario">
+                    <div class="col">
+                        <button
+                            class="btn btn-primary d-flex justify-content-between align-items-center navbar-toggler"
+                            type="button"
+                            style="
+                                width: 100%;
+                                background: var(--bs-btn-disabled-color);
+                                color: var(--bs-body-color);
+                                height: 37px;
+                                font-size: 19px;
+                                font-weight: bold;
+                                border-color: #d5d5d5;
+                                border-bottom-width: 1px;
+                                border-bottom-style: solid;
+                            "
+                            data-bs-toggle="collapse"
+                            data-bs-target="#quest"
+                        >
+                            &nbsp; &nbsp;Questionários&nbsp;
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="row collapse" id="quest" style="margin: 2%;">
+                        <div class="col">
+                            <ol style="margin: 0;">
+                                <li><a href="#" style="margin-left: 1px; height: initial; margin-right: 7px;" download="">Fazer download</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
