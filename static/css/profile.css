@@ -183,5 +183,9 @@ header p {
   }
 }
 
-
+.errorlist {
+  color: var(--bs-form-invalid-border-color);
+  font-size: small;
+  margin-bottom: -7px;
+}
 

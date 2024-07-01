@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .form import RegistroUsuarioForm, UserDetailsForm, PasswordResetForm, EmailLoginForm
+from .form import *
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
 from .models import *
@@ -11,12 +11,16 @@ from django.contrib.auth.decorators import login_required
 import smtplib
 from email.mime.text import MIMEText
 import random
+import re
 from environ import Env
 
 env = Env()
 
 
 def index(request):
+    user = request.user
+    if user.is_authenticated:
+        return redirect('profdevhub:homepage')
     return render(request, "main.html")
 
 
@@ -28,38 +32,27 @@ def homepage(request):
 @login_required
 def perfil(request):
     user = request.user
-    detalhes = get_object_or_404(User_details, id=user.id)
+    user_details = get_object_or_404(User_details, user=user)
 
-    if request.method == "POST":
-
-        if request.POST.get("first_name"):
-            user.first_name = request.POST.get("first_name")
-
-        if request.POST.get("last_name"):
-            user.last_name = request.POST.get("last_name")
-
-        if request.POST.get("email"):
-            user.email = request.POST.get("email")
-
-        if request.POST.get("telemovel"):
-            detalhes.telemovel = request.POST.get("telemovel")
-
-        if request.POST.get("endereco"):
-            detalhes.endereco = request.POST.get("endereco")
-
-        if request.POST.get("cidade"):
-            detalhes.cidade = request.POST.get("cidade")
-
-        if request.POST.get("codigo_postal"):
-            codigo_postal = request.POST.get("codigo_postal")
-
-        try:
-            user.save()
-            detalhes.save()
-        except:
-            return redirect(reverse('profdevhub:page_forum'))
-
-    return render(request, "profile.html", {"user": request.user})
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            user = form.save()
+            user_details.telemovel = form.cleaned_data.get('telemovel')
+            user_details.endereco = form.cleaned_data.get('endereco')
+            user_details.cidade = form.cleaned_data.get('cidade')
+            user_details.codigo_postal = form.cleaned_data.get('codigo_postal')
+            user_details.save()
+            messages.success(request, 'Seu perfil foi atualizado com sucesso!')
+            return redirect('profdevhub:perfil')  # Altere 'profile' para a página de redirecionamento desejada
+    else:
+        form = UserUpdateForm(instance=user, initial={
+            'telemovel': user_details.telemovel,
+            'endereco': user_details.endereco,
+            'cidade': user_details.cidade,
+            'codigo_postal': user_details.codigo_postal,
+        })
+    return render(request, 'profile.html', {'form': form})
 
 
 @login_required
@@ -110,10 +103,12 @@ def resources(request):
     return render(request, "resource.html", {"recursos": recursos})
 
 
+@login_required
 def page_forum(request, forum_id):
     try:
         forum = get_object_or_404(Forum, id=forum_id)
     except:
+        messages.error(request, 'Este forum não existe')
         return redirect('profdevhub:forum')
     else:
         if request.method == 'POST':
@@ -133,13 +128,16 @@ def page_forum(request, forum_id):
             if inscrito:
                 return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem})
             else:
+                messages.warning(request, 'Não esta inscrito no curso')
                 return redirect('profdevhub:forum')
 
 
+@login_required
 def page_course(request, course_id):
     try:
         curso = get_object_or_404(Courses, id=course_id)
     except:
+        messages.error(request, 'O curso não existe')
         return redirect('profdevhub:courses')
 
     inscrito = curso.inscritos.filter(user_id=request.user.id).exists()
@@ -147,10 +145,12 @@ def page_course(request, course_id):
     return render(request, "page_course.html", {'curso': curso, "inscrito": inscrito, "today": today})
 
 
+@login_required
 def page_exercicios(request, exercicios_id):
     try:
         exercicio = get_object_or_404(Exercicios, id=exercicios_id)
     except:
+        messages.error(request, 'O exercicio não existe')
         return redirect('profdevhub:courses')
     else:
 
@@ -159,20 +159,26 @@ def page_exercicios(request, exercicios_id):
         if request.method == 'POST':
             for perguntas in exercicio.perguntas.all():
                 if request.POST.get(str(perguntas.id)):
-                    Submit.objects.create(pergunta=perguntas, student=request.user, resposta=request.POST.get(str(perguntas.id)))
+                    Submit.objects.create(pergunta=perguntas, student=request.user,
+                                          resposta=request.POST.get(str(perguntas.id)))
 
             curso_id = exercicio.curso.id
+            messages.success(request, 'Respostas submetidas')
             return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
 
         if inscrito:
             return render(request, "exercises.html", {"exercicio": exercicio})
-        else: return redirect('profdevhub:courses')
+        else:
+            messages.warning(request, 'Não esta inscrito no curso')
+            return redirect('profdevhub:courses')
 
 
+@login_required
 def page_workshops_webinars(request, workshop_id):
     try:
         workshop = get_object_or_404(Workshop, id=workshop_id)
     except:
+        messages.success(request, 'O workshop ou webinars não existe')
         return redirect('profdevhub:workshops_webinars')
 
     inscrito = workshop.inscritos.filter(user_id=request.user.id).exists()
@@ -180,6 +186,7 @@ def page_workshops_webinars(request, workshop_id):
     return render(request, "page_webinars.html", {'workshop': workshop, 'inscrito': inscrito, 'today': today})
 
 
+@login_required
 def inscricao_anular_curso(request, curso_id):
     user = request.user
     curso = get_object_or_404(Courses, id=curso_id)
@@ -197,11 +204,12 @@ def inscricao_anular_curso(request, curso_id):
         inscricao.delete()
         messages.success(request, 'Inscrição removida com sucesso.')
     else:
-        messages.warning(request, 'Você já está inscrito neste curso.')
+        messages.error(request, 'Ja não é possivel realizar a operação.')
 
     return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
 
 
+@login_required
 def inscricao_anular_workshop(request, workshop_id):
     user = request.user
     workshop = get_object_or_404(Workshop, id=workshop_id)
@@ -219,12 +227,15 @@ def inscricao_anular_workshop(request, workshop_id):
         inscricao.delete()
         messages.success(request, 'Inscrição removida com sucesso.')
     else:
-        messages.warning(request, 'Ja não da')
+        messages.error(request, 'Ja não é possivel realizar a operação.')
 
     return redirect(reverse('profdevhub:page_workshops_webinars', args=[workshop_id]))
 
 
 def login_v(request):
+    if request.user.is_authenticated:
+        return redirect('profdevhub:homepage')
+
     if request.method == 'POST':
         form = EmailLoginForm(data=request.POST)
         print(form.errors)
@@ -240,7 +251,7 @@ def login_v(request):
 
 def logout_v(request):
     logout(request)
-    return render(request, "login.html")
+    return redirect('profdevhub:logout')
 
 
 def registo(request):
@@ -250,7 +261,7 @@ def registo(request):
             request.session['registo_form'] = form.cleaned_data
             email = form.cleaned_data['email']
             send_email(request, email)
-            return render(request, 'confirmation.html')
+            return redirect('profdevhub:confirmar_email')
     else:
         form = RegistroUsuarioForm()
     return render(request, 'register.html', {'form': form})
@@ -279,7 +290,7 @@ def registo_details(request):
         form = UserDetailsForm(request.POST)
         if form.is_valid():
             request.session['details_form'] = form.cleaned_data
-            return render(request, 'up_doc.html')
+            return redirect('profdevhub:up_documentos')
     else:
         form = UserDetailsForm()
     return render(request, 'register-1.html', {'form': form})
@@ -301,15 +312,16 @@ def up_documentos(request):
         user_details.user = user
 
         if arquivo1 and arquivo2:
-            user.user_details.documento = arquivo1
-            user.user_details.documento2 = arquivo2
+            user.detalhes.documento = arquivo1
+            user.detalhes.documento2 = arquivo2
 
             user.save()
-            user.user_details.save()
+            user.detalhes.save()
             del request.session['registo_form']
             del request.session['details_form']
 
-            return render(request, "login.html")
+            messages.success(request, 'Conta criada com sucesso')
+            return redirect('profdevhub:perfil')
         else:
             return render(request, 'up_doc.html', {'error_message': 'Por favor, envie ambos os arquivos.'})
     else:
@@ -318,31 +330,42 @@ def up_documentos(request):
 
 def reset_password_email(request):
     if request.method == "POST":
+        if not User.objects.filter(email=request.POST['email']).exists():
+            return render(request, 'reset_password_1.html', {'error_message': 'Este email não esta resgistado'})
         email = request.POST.get('email')
         request.session['user_email'] = email
         send_email(request, email)
-        return render(request, 'confirmation.html')
-    else:
-        form = RegistroUsuarioForm()
-    return render(request, 'reset_password_1.html', {'form': form})
+        return redirect('profdevhub:confirmar_email')
+
+    return render(request, 'reset_password_1.html')
 
 
 def reset_password(request):
+    if request.user.is_authenticated:
+        user_email = request.user.email
+    else:
+        try:
+            if request.session['user_email']:
+                user_email = request.session['user_email']
+                del request.session['user_email']
+        except:
+            messages.error(request, 'Não é possivel aceder ao site')
+            return redirect('profdevhub:login')
+
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
         if form.is_valid():
-            if request.session['user_email']:
-                user_email = request.session['user_email']
-            if request.user.email:
-                user_email = request.user.email
-
             usuario = User.objects.get(email=user_email)
             nova_senha = form.cleaned_data['password']
             usuario.set_password(nova_senha)
             usuario.save()
-            del request.session['user_email']
             update_session_auth_hash(request, usuario)
-            return render(request, 'login.html')
+
+            if request.user.is_authenticated:
+                messages.success(request, 'Senha atualizada')
+                return redirect('profdevhub:perfil')
+            messages.success(request, 'Password atualizada')
+            return redirect('profdevhub:perfil')
     else:
         form = PasswordResetForm()
     return render(request, 'reset_password_2.html', {'form': form})
@@ -362,4 +385,3 @@ def send_email(request, email):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
         smtp_server.login(sender, password)
         smtp_server.sendmail(sender, recipients, msg.as_string())
-    print("Message sent!")

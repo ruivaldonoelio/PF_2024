@@ -12,8 +12,8 @@
     <div class="col" style="width: 80%; height: 100%; padding-top: 15px; padding-bottom: 15px;">
         <div class="up_doc">
             <div class="modal-body">
-                <p class="modal-title">Upload a file</p>
-                <p class="modal-description">Attach the file below</p>
+                <p class="modal-title">Enviar os ficheiros</p>
+                <p class="modal-description">Anexe os ficheiros abaixo</p>
 
                 <form class="up_doc hidden" action="{% url 'profdevhub:up_documentos' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -41,10 +41,10 @@
                             </g>
                         </svg>
                     </span>
-                    <span class="upload-area-title" id="file_name1">Drag file(s) here to upload.</span>
+                    <span class="upload-area-title" id="file_name1">Arraste o ficheiro aqui para fazer upload.</span>
                     <span class="upload-area-description1" id="file_description1">
-                        Alternatively, you can select a file by <br />
-                        <strong>clicking here</strong>
+                        Alternativamente, você pode selecionar um ficheiro clicando <br />
+                        <strong>clicando aqui</strong>
                     </span>
                 </div>
 
@@ -62,13 +62,13 @@
                             </g>
                         </svg>
                     </span>
-                    <span class="upload-area-title" id="file_name2">Drag file(s) here to upload.</span>
+                    <span class="upload-area-title" id="file_name2">Arraste o ficheiro aqui para fazer upload.</span>
                     <span class="upload-area-description2" id="file_description2">
-                        Alternatively, you can select a file by <br />
-                        <strong>clicking here</strong>
+                        Alternativamente, você pode selecionar um ficheiro clicando <br />
+                        <strong>clicando aqui</strong>
                     </span>
                 </div>
-                <button onclick="document.getElementById('enviar').click();" class="btn-primary">Upload File</button>
+                <button onclick="document.getElementById('enviar').click();" class="btn-primary">Upload</button>
             </div>
         </div>
     </div>

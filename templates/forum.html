@@ -8,7 +8,13 @@
 {% endblock %}
 
 {% block content %}
-
+{% if messages %}
+  <ul class="messages" style="margin-bottom: 0">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
 <div class="container" id="background">
     <div class="col d-flex flex-column justify-content-center align-items-center">
         <header class="text-center my-4">

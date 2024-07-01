@@ -12,9 +12,8 @@
     <div class="col d-flex d-xl-flex justify-content-center justify-content-xl-center" style="padding-top: 10px; padding-bottom: 10px;">
         <form class="form" action="{% url 'profdevhub:confirmar_email'%}" method="post">
             {% csrf_token %}
-            <div class="title">OTP</div>
-            <div class="title">Verification Code</div>
-            <p class="message">We have sent a verification code to your mobile number</p>
+            <div class="title">Código de Verificação</div>
+            <p class="message">Enviamos um código de verificação para o seu email</p>
             <div class="inputs">
                 <input id="input1" name="n1" type="text" maxlength="1" /> <input id="input2" name="n2" type="text" maxlength="1" /> <input id="input3" name="n3" type="text" maxlength="1" />
                 <input id="input4" name="n4" type="text" maxlength="1" />
@@ -25,7 +24,7 @@
                 </li>
             {% endif %}
 
-            <button class="action" type="submit">verify me</button>
+            <button class="action" type="submit">Verificar</button>
         </form>
     </div>
 </div>

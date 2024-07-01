@@ -8,12 +8,19 @@
 {% endblock %}
 
 {% block content %}
+{% if messages %}
+  <ul class="messages" style="margin-bottom: 0">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
 <div class="container" id="background" style="height: 100%;">
     <div class="row">
         <div class="col d-flex flex-column align-items-center">
             <img class="img-fluid" src="{% static '../static/img/logo1.png' %}" style="width: 200px; height: 171px;" />
-            <h1 style="font-size: 28px;"><span style="color: rgb(5, 5, 5);">Welcome back!</span></h1>
-            <p><span style="color: rgb(69, 69, 69);">Login to see the members functionality</span></p>
+            <h1 style="font-size: 28px;"><span style="color: rgb(5, 5, 5);">Bem vindo ao ProfDevHub</span></h1>
+            <p><span style="color: rgb(69, 69, 69);">A faça o login para ter acesso a plataforma</span></p>
         </div>
     </div>
     <div class="row">
@@ -26,7 +33,7 @@
                 {{ form.errors }}
                 <div>
                     <a href="/reset_password_1">Esqueceu-se da password</a> <br>
-                    <a href="/registo/details_1">Ainda não tem conta? Faça o resgito</a>
+                    <a href="/registo/details_1">Ainda não tem conta? Faça o registo</a>
                 </div>
                 
                 <div class="login-with">

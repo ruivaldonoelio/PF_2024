@@ -169,3 +169,30 @@ a {
 .dropdown:hover .dropdown-menu {
   display: block;
 }
+
+.messages {
+    list-style: none;
+    padding: 0;
+}
+
+.messages li {
+    padding: 10px;
+    width: 100%;
+    line-height: 2.0em;
+}
+
+.messages li.info, .messages li.debug {
+    background-color: #d0ebff;
+}
+
+.messages li.success {
+    background-color: #b2f2bb;
+}
+
+.message li.warning {
+    background-color: #ffec99;
+}
+
+.messages li.error {
+    background-color: #ffe3e3;
+}

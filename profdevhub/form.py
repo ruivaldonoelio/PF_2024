@@ -109,3 +109,26 @@ class EmailLoginForm(AuthenticationForm):
 
     def get_user(self):
         return self.user_cache
+
+
+class UserUpdateForm(forms.ModelForm):
+    telemovel = forms.CharField(max_length=80, required=False)
+    endereco = forms.CharField(max_length=80, required=False)
+    cidade = forms.CharField(max_length=80, required=False)
+    codigo_postal = forms.CharField(max_length=80, required=False)
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Este email já está em uso.")
+        return email
+
+    def clean_codigo_postal(self):
+        codigo_postal = self.cleaned_data.get('codigo_postal')
+        if codigo_postal and not re.match(r'^\d{4}-\d{3}$', codigo_postal):
+            raise forms.ValidationError("O formato do código postal deve ser 1111-111.")
+        return codigo_postal

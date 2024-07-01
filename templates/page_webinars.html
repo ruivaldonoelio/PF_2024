@@ -4,7 +4,14 @@
 {% block extra_title %}| Workshop & Webinars|{{ workshop.titulo }}{% endblock %}
 
 {% block content %}
-<div class="container" style="padding: 20px;">
+{% if messages %}
+  <ul class="messages" style="margin-bottom: 0">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+<div class="container" id="background" style="padding: 20px;">
     <div class="row">
         <div class="col-md-3 col-lg-2 text-center d-md-flex flex-column align-items-md-center" style="padding: 20px; height: 40%;">
             <img
