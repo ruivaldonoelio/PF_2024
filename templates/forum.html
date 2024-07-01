@@ -29,7 +29,6 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ chats.nome }}</h5>
                                 <p class="card-text">{{ chats.descricao }}</p>
-                                <p class="card-text"><strong>Participantes:</strong> {{ discussion.author }}</p>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
                                 <form action="{% url 'profdevhub:page_forum' chats.id %}">

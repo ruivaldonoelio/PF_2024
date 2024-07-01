@@ -234,11 +234,11 @@ def inscricao_anular_workshop(request, workshop_id):
 
 def login_v(request):
     if request.user.is_authenticated:
+        messages.warning(request, 'Tera de fazer o logout para aceder a pagina.')
         return redirect('profdevhub:homepage')
 
     if request.method == 'POST':
         form = EmailLoginForm(data=request.POST)
-        print(form.errors)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
@@ -251,7 +251,7 @@ def login_v(request):
 
 def logout_v(request):
     logout(request)
-    return redirect('profdevhub:logout')
+    return redirect('profdevhub:login')
 
 
 def registo(request):

@@ -8,26 +8,33 @@
 {% endblock %}
 
 {% block content %}
+{% if messages %}
+  <ul class="messages" style="margin-bottom: 0">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
 <div class="container" id="background" style="padding-top: 17px;">
     <header>
-        <h1>Welcome!</h1>
-        <p>This is your dashboard where you can view your recent activities and recommendations.</p>
+        <h1>Bem vindo!</h1>
+        <p>Este é o seu painel onde você pode visualizar suas atividades e notificações recentes.</p>
     </header>
 
     <div class="row set_home" style="padding: 20px;">
         <div class="col">
             <div class="card">
-                <div class="card-header">Recent Notifications</div>
+                <div class="card-header">Notificações recentes</div>
                 <div class="card-body">
-                    <p class="card-text">No data</p>
+                    <p class="card-text">Vazio</p>
                 </div>
             </div>
         </div>
         <div class="col">
             <div class="card">
-                <div class="card-header">Current Enrollments</div>
+                <div class="card-header">Inscrições atuais</div>
                 <div class="card-body">
-                    <p class="card-text">No data</p>
+                    <p class="card-text">Vazio</p>
                 </div>
             </div>
         </div>
