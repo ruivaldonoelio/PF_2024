@@ -11,6 +11,7 @@ venv.bak/
 build/
 dist/
 
+__init__.py
 # Django
 *.log
 *.pot
