@@ -40,7 +40,7 @@ SECRET_KEY = 'django-insecure-o&ysxeck+ei2jzpyti*t)k#6(-&7e8y(#-u008-##^*c8t$bqy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
 
 LOGIN_URL = '/login'
 
