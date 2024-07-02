@@ -14,6 +14,8 @@ from pathlib import Path
 import environ
 import os
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
+import dj_database_url
 
 # Set the project base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,12 +35,12 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o&ysxeck+ei2jzpyti*t)k#6(-&7e8y(#-u008-##^*c8t$bqy'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 LOGIN_URL = '/login'
 
@@ -101,13 +103,28 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': env("db_name_user"),
-        'USER': env("db_name_user"),
+        'USER': env("db_user"),
         'PASSWORD': env("db_pass"),
         'HOST': env("db_host"),
         'PORT': env("db_port"),
         'ATOMIC_REQUESTS': True,
     }
 }
+
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env("db_name_user"),
+        }
+    }
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
