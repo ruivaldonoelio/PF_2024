@@ -1,1 +1,1 @@
-web: gunicorn profdevhub.wsgi
+web: gunicorn profdevhub.wsgi --log-file -
