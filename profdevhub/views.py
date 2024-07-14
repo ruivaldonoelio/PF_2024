@@ -111,22 +111,16 @@ def page_forum(request, forum_id):
         messages.error(request, 'Este forum não existe')
         return redirect('profdevhub:forum')
     else:
-        if request.method == 'POST':
-            message = request.POST.get('message')
-
-            if message:
-                enviar = Mensagens(forum=forum, emissor=request.user, texto=message)
-                enviar.save()
-                return redirect(reverse('profdevhub:page_forum', args=[forum_id]))
 
         mensagem = forum.mensagens.all().order_by('data')
+        participantes = User.objects.filter(mensagens__forum=forum_id).distinct()
 
         if forum.curso_id is None:
-            return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem})
+            return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem, 'participantes': participantes})
         else:
             inscrito = forum.curso.inscritos.all().filter(user_id=request.user.id).exists()
             if inscrito:
-                return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem})
+                return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem, 'participantes': participantes})
             else:
                 messages.warning(request, 'Não esta inscrito no curso')
                 return redirect('profdevhub:forum')

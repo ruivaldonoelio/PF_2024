@@ -60,12 +60,14 @@ LOGOUT_REDIRECT_URL = '/login'
 
 INSTALLED_APPS = [
     'profdevhub',
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -96,6 +98,15 @@ TEMPLATES = [
         },
     },
 ]
+
+ASGI_APPLICATION = 'djangoProject.asgi.application'
+
+# Configuração de Canal Padrão
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 WSGI_APPLICATION = 'djangoProject.wsgi.application'
 

@@ -153,6 +153,7 @@ class Forum(models.Model):
         super().save(*args, **kwargs)
 
 
+
 class ForumParticipant(models.Model):
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE, related_name='participantes')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='foruns')

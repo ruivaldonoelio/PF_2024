@@ -31,8 +31,7 @@
                                 <p class="card-text">{{ chats.descricao }}</p>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
-                                <form action="{% url 'profdevhub:page_forum' chats.id %}">
-                                    {%  csrf_token %}
+                                <a href="{% url 'profdevhub:page_forum' chats.id %}">
                                     <button type="submit" class="btn btn-sm btn-outline-secondary">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                             <path d="M3.5 5.5A.5.5 0 0 1 4 5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9zm1 0v9a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0-.5.5z"></path>
@@ -41,8 +40,7 @@
                                         </svg>
                                         Entrar
                                     </button>
-                                </form>
-                                
+                                </a>
                             </div>
                         </div>
                     </div>

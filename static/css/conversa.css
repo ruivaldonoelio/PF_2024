@@ -1,5 +1,5 @@
 .card {
-  width: 80%;
+  width: 100%;
   height: fit-content;
   background-color: white;
   box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
@@ -17,6 +17,7 @@
   font-weight: 700;
   font-size: 13px;
   color: #47484b;
+  justify-content: space-between;
 }
 
 .title::after {
@@ -66,7 +67,7 @@
   position: absolute;
   right: 0px;
   bottom: 0px;
-  border-radius: 50%;
+  border-radius: 50%;;
   background-color: #0fc45a;
   border: 2px solid #ffffff;
 }
@@ -118,8 +119,8 @@
   position: absolute;
   right: 0px;
   bottom: 0px;
-  border-radius: 50%;
   background-color: #0fc45a;
+  border-radius: 50%;
   border: 2px solid #ffffff;
 }
 
@@ -224,3 +225,27 @@
 img {
 }
 
+.btn_participantes {
+  width: 48px;
+  height: 26px;
+  background-color: #ffffff;
+  border: none;
+}
+
+.users.collapsed {
+  width: 0%;
+}
+
+@media (max-width: 767px) {
+  .users {
+    max-width: 15rem;
+    position: absolute;
+  }
+}
+
+@media (min-width: 768px) {
+  .users {
+    max-width: 20%;
+    /*position: absolute;*/
+  }
+}
