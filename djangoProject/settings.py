@@ -99,17 +99,15 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'djangoProject.asgi.application'
+
 # Configuração de Canal Padrão
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [("localhost", 6379)],
-        },
-    },
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
 }
 
-ASGI_APPLICATION = 'djangoProject.asgi.application'
 WSGI_APPLICATION = 'djangoProject.wsgi.application'
 
 # Database
