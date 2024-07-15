@@ -103,9 +103,12 @@ ASGI_APPLICATION = 'djangoProject.asgi.application'
 
 # Configuração de Canal Padrão
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('rediss://default:AVNS_r4NdYn9Rv4YeHKoONmC@db-redis-fra1-99163-do-user-17112349-0.b.db.ondigitalocean.com:25061')],
+        },
+    },
 }
 
 WSGI_APPLICATION = 'djangoProject.wsgi.application'
