@@ -138,7 +138,7 @@
     const user = "{{ user }}"
     const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
 
-    const chatSocket = new WebSocket(protocol + window.location.host + '/ws/forum/' + forumId  + "/");
+    const chatSocket = new WebSocket(protocol + window.location.host + '/forum/' + forumId  + "/");
     var scrollableDiv = document.getElementById("myScrollableDiv");
 
      chatSocket.onmessage = function(e) {
