@@ -4,7 +4,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
 from .models import *
 from django.urls import reverse
-from datetime import date
+from datetime import date, timedelta
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -141,6 +141,8 @@ def page_course(request, course_id):
 
     inscrito = curso.inscritos.filter(user_id=request.user.id).exists()
     today = date.today()
+    espera = curso.lista_c.filter(user_id=request.user.id, curso_id=curso.id).exists()
+    print(espera)
 
     exercicios_notas = []
     for exercicio in curso.exercicios.all():
@@ -148,7 +150,7 @@ def page_course(request, course_id):
         exercicios_notas.append({'exercicio': exercicio, 'nota': nota})
 
     return render(request, "page_course.html",
-                  {'curso': curso, "inscrito": inscrito, "today": today, 'exercicios_notas': exercicios_notas})
+                  {'curso': curso, "inscrito": inscrito, "today": today, 'exercicios_notas': exercicios_notas, 'espera': espera})
 
 
 @login_required
@@ -213,6 +215,7 @@ def inscricao_anular_curso(request, curso_id):
     elif inscrito or tempo:
         inscricao = get_object_or_404(CursoIncritos, curso_id=curso.id, user_id=user.id)
         inscricao.delete()
+        curso.vaga_notificacao()
         messages.success(request, 'Inscrição removida com sucesso.')
     else:
         messages.error(request, 'Ja não é possivel realizar a operação.')
@@ -242,6 +245,28 @@ def inscricao_anular_workshop(request, workshop_id):
 
     return redirect(reverse('profdevhub:page_workshops_webinars', args=[workshop_id]))
 
+
+def c_espera_notificacao(request, curso_id):
+    user = request.user
+    curso = get_object_or_404(Courses, id=curso_id)
+
+    if date.today() < curso.inicio_inscricao:
+        Espera.objects.create(user=user, curso=curso, inscricao=True)
+        messages.success(request, 'Sera notificado quando inicarem as inscrições.')
+    else:
+        messages.success(request, 'Sera inscrito automaticamente quando houver vagas')
+        Espera.objects.create(user=user, curso=curso, vaga=True)
+
+    return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
+
+def wb_espera_notificacao(request, workshop_id):
+    user = request.user
+    workshop = get_object_or_404(Courses, id=workshop_id)
+
+    if date.today() < workshop.inicio_inscricao:
+        Espera.objects.create(user=user, workshop=workshop, inscricao=True)
+    else:
+        Espera.objects.create(user=user, workshop=workshop, vaga=True)
 
 def login_v(request):
     if request.user.is_authenticated:

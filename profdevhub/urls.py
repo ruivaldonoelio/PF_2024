@@ -19,11 +19,13 @@ urlpatterns = [
     path('courses/', views.courses, name='courses'),
     path('courses/<int:course_id>', views.page_course, name='page_courses'),
     path('courses/inscricao_anular/<int:curso_id>', views.inscricao_anular_curso, name='inscricao_anular_curso'),
+    path('courses/lista_espera_notificacao/<int:curso_id>', views.c_espera_notificacao, name='c_espera_notificacao'),
     path('courses/perguntas/<int:exercicios_id>', views.page_exercicios, name='exercicios'),
     path('resources/', views.resources, name='resources'),
     path('forum/', views.forum, name='forum'),
     path('forum/<int:forum_id>', views.page_forum, name='page_forum'),
     path('workshops_webinars/', views.workshops_webinars, name='workshops_webinars'),
     path('workshops_webinars/<int:workshop_id>', views.page_workshops_webinars, name='page_workshops_webinars'),
+    path('workshops_webinars/lista_espera_notificacao/<int:workshop_id>', views.wb_espera_notificacao, name='wb_espera_notificacao'),
     path('workshops_webinars/inscricao_anular/<int:workshop_id>', views.inscricao_anular_workshop, name='inscricao_anular_workshop'),
 ]

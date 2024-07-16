@@ -6,6 +6,12 @@ from environ import Env
 from datetime import date
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum
+from docx import Document
+from docx2pdf import convert
+from email import encoders
+import os
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
 
 env = Env()
 
@@ -65,18 +71,31 @@ class Courses(models.Model):
 
     def notas_media(self, user):
         user = get_object_or_404(User, username=user)
-        numero_perguntas= self.exercicios.count()
+        numero_perguntas = self.exercicios.count()
         total = 0
 
         for n in self.exercicios.all():
             total += n.notas(user)
 
-        return total/numero_perguntas
+        return total / numero_perguntas
+
+    def enviar_certificado(self, user):
+        inscricao = self.inscritos.filter(user=user, certificado=None).first()
+        email = user.email
+        replacements = {'Nome': user.username, 'Curso': self.titulo, 'data': date.today().strftime("%d/%m/%Y"),
+                        'ID': str(inscricao.id)}
+        input_path = "media/169-diploma-formal-blue-landscape.docx"
+        output_path = "media/certificados"
+        edit_word_document(input_path, output_path, replacements, str(inscricao.id))
+        inscricao.certificado = "media/certificados/" + str(inscricao.id)+".pdf"
+        inscricao.save()
+        send_email("ja esta", email, True, str(inscricao.id))
 
 
 class CursoIncritos(models.Model):
     curso = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name='inscritos')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cursos')
+    certificado = models.FileField(upload_to='certificados/', blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} in {self.curso.titulo}'
@@ -143,7 +162,7 @@ class Submit(models.Model):
 
         submission = self.pergunta.exercicio.submissions(self.student.id)
         ok = True
-        mensagem =""
+        mensagem = ""
 
         for submit in submission:
             if not submit.feeback or not submit.nota:
@@ -299,17 +318,52 @@ class Espera(models.Model):
             return f'{self.user.username} Esperando {self.curso}'
 
 
-def send_email(texto, email):
+def send_email(texto, email, certificado, nome):
     subject = "Email Subject"
     body = texto
     sender = env("email")
     recipients = [sender, email]
     password = env("email_pass")
-    msg = MIMEText(body)
+
+    # Criando a mensagem como uma instância de MIMEMultipart
+    msg = MIMEMultipart()
     msg['Subject'] = subject
     msg['From'] = sender
     msg['To'] = ', '.join(recipients)
+
+    # Adicionando o corpo do email
+    msg.attach(MIMEText(body, 'plain'))
+
+    # Verificando se há um certificado para anexar
+    if certificado:
+        filename = "documento.pdf"  # Nome do arquivo que será anexado
+        attachment = open("media/certificados/"+nome+".pdf", "rb")
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(attachment.read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', f"attachment; filename={filename}")
+        msg.attach(part)
+
+    # Enviando o email usando SMTP_SSL
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
         smtp_server.login(sender, password)
         smtp_server.sendmail(sender, recipients, msg.as_string())
 
+
+def edit_word_document(input_path, output_path, replacements, nome):
+    # Abra o documento existente
+    doc = Document(input_path)
+
+    # Faça as substituições necessárias
+    for paragraph in doc.paragraphs:
+        for run in paragraph.runs:
+            for key, value in replacements.items():
+                if key in run.text:
+                    run.text = run.text.replace(key, value)
+
+    # Salve a edição em um novo arquivo .docx
+    edited_path = nome + '.docx'
+    doc.save(edited_path)
+
+    # Converta o documento editado para PDF
+    convert(edited_path, output_path)

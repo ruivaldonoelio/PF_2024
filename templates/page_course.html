@@ -44,6 +44,16 @@
                 </form>
             {% endif %}
         
+            {% if not espera and today < curso.inicio_inscricao %}
+                <a href="{% url 'profdevhub:c_espera_notificacao' curso.id %}">
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">Notificar</button>
+                </a>
+            {% elif not espera and not inscrito and curso.inicio_inscricao <= today and curso.fim_inscricao >= today and curso.limite_inscritos == curso.inscritos.count %}
+                <a href="{% url 'profdevhub:c_espera_notificacao' curso.id %}">
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">Lista de espera</button>
+                </a>
+            {% endif %}
+        
             {% if curso.data_fim >= today and curso.data_inicio <= today %}
                 <p style="color: rgb(255,198,30)"> A decorrer </p>
             {% elif curso.fim_inscricao >= today  and curso.inicio_inscricao <= today and curso.limite_inscritos != curso.inscritos.count%}
