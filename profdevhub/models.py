@@ -54,7 +54,7 @@ class Courses(models.Model):
                     user=espera.user,
                     texto=f'Você foi inscrito no workshop {self.titulo}'
                 )
-                send_email(f'Você foi inscrito no workshop {self.titulo}', espera.user.email)
+                send_email(f'Você foi inscrito no workshop {self.titulo}', espera.user.email, False, False)
 
     def inscricao_notificacao(self):
         if date.today() == self.inicio_inscricao:
@@ -66,7 +66,7 @@ class Courses(models.Model):
                         texto=f'Inscrições abertas no workshop'
                               f' {self.titulo}'
                     )
-                    send_email(f'Inscrições abertas no workshop {self.titulo}', notificacao.user.email)
+                    send_email(f'Inscrições abertas no workshop {self.titulo}', notificacao.user.email, False, False)
                 espera.delete()
 
     def notas_media(self, user):
@@ -179,7 +179,7 @@ class Submit(models.Model):
                 )
             total_notas = self.pergunta.exercicio.notas(self.student)
             mensagem += f"Total de notas para este exercício: {total_notas}"
-            send_email(mensagem, self.student.email)
+            send_email(mensagem, self.student.email, False, False)
 
 
 class Recursos(models.Model):
@@ -232,7 +232,7 @@ class Workshop(models.Model):
                     user=espera.user,
                     texto=f'Você foi inscrito no workshop {self.titulo}'
                 )
-                send_email(f'Você foi inscrito no workshop {self.titulo}', espera.user.email)
+                send_email(f'Você foi inscrito no workshop {self.titulo}', espera.user.email, False, False)
 
     def inscricao_notificacao(self):
         if date.today() == self.inicio_inscricao:
@@ -244,7 +244,7 @@ class Workshop(models.Model):
                         texto=f'Inscrições abertas no workshop'
                               f' {self.titulo}'
                     )
-                    send_email(f'Inscrições abertas no workshop {self.titulo}', notificacao.user.email)
+                    send_email(f'Inscrições abertas no workshop {self.titulo}', notificacao.user.email, False, False)
                 espera.delete()
 
     def save(self, *args, **kwargs):
