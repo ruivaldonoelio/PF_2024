@@ -44,7 +44,9 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,profdevhub-da9cw.ondigitalocean.app").split(",")
-CSRF_TRUSTED_ORIGINS = ['https://profdevhub-da9cw.ondigitalocean.app/']
+CSRF_TRUSTED_ORIGINS = ['https://profdevhub-da9cw.ondigitalocean.app']
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 
 LOGIN_URL = '/login'
