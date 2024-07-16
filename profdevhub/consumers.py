@@ -35,6 +35,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         user = self.scope['user']
         forum = await sync_to_async(Forum.objects.get)(id=self.forum_id)
 
+        await sync_to_async(Mensagens.objects.create)(
+            forum=forum,
+            emissor=user,
+            texto=message
+        )
 
         # Send message to room group
         await self.channel_layer.group_send(
