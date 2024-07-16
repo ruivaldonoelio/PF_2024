@@ -148,7 +148,16 @@
                         <div class="col">
                             <ol style="margin: 0;">
                                 {% for ex in curso.exercicios.all %}
-                                    <li><a href="{% url 'profdevhub:exercicios' ex.id %} " style="margin-left: 1px; height: initial; margin-right: 7px;" target="_blank">{{ ex.nome }}</a>Limite: {{ ex.data_encerramento }}</li>
+                                    <li>
+                                        <a href="{% url 'profdevhub:exercicios' ex.id %}" style="margin-left: 1px; height: initial; margin-right: 7px;" target="_blank">{{ ex.nome }}</a>
+                                        Limite: {{ ex.data_encerramento }}
+                                        Nota:
+                                        {% for n in exercicios_notas %}
+                                            {% if ex.id == n.exercicio.id %}
+                                                {{ n.nota }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </li>
                                 {% endfor %}
                             </ol>
                         </div>

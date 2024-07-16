@@ -43,7 +43,9 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,.ondigitalocean.app").split(",")
+CSRF_TRUSTED_ORIGINS = ['.ondigitalocean.app']
+
 
 LOGIN_URL = '/login'
 
@@ -178,3 +180,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_BROKER_URL = env("redis")
+CELERY_RESULT_BACKEND = env("redis")
+
+CELERY_BEAT_SCHEDULE = {
+    'check-workshop-inscricao': {
+        'task': 'profdevhub.tasks.check_inscricao',
+        'schedule': 60.0,  # verifica a cada hora
+    },
+    'check-course-vaga': {
+        'task': 'profdevhub.tasks.check_vaga',
+        'schedule': 300.0,  # verifica a cada hora
+    },
+}

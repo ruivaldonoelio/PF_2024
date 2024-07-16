@@ -25,16 +25,22 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">Notificações recentes</div>
-                <div class="card-body">
-                    <p class="card-text">Vazio</p>
+                <div class="card-body" style="overflow-y: scroll">
+                    {% for notif in notificacao %}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="card-text" style="margin:0">{{ notif.texto }}</p>
+                            <a>ok</a>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
         <div class="col">
             <div class="card">
                 <div class="card-header">Inscrições atuais</div>
-                <div class="card-body">
-                    <p class="card-text">Vazio</p>
+                <div class="card-body justify-content-between d-flex">
+                    <a href="{% url 'profdevhub:page_courses' curso.id %}">{{ curso.titulo }} </a>
+                    <p class="card-text">Media: {{ notas_media }}</p>
                 </div>
             </div>
         </div>

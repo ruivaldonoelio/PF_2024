@@ -26,7 +26,10 @@ def index(request):
 
 @login_required
 def homepage(request):
-    return render(request, "home.html")
+    notificacao = Notificacao.objects.filter(user=request.user)
+    curso = Courses.objects.filter(inscritos__user=request.user)[0]
+    notas_media = round(curso.notas_media(request.user), 2)
+    return render(request, "home.html", {'notificacao': notificacao, 'curso': curso, 'notas_media': notas_media})
 
 
 @login_required
@@ -116,11 +119,13 @@ def page_forum(request, forum_id):
         participantes = User.objects.filter(mensagens__forum=forum_id).distinct()
 
         if forum.curso_id is None:
-            return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem, 'participantes': participantes})
+            return render(request, "page_forum.html",
+                          {'forum': forum, 'mensagens': mensagem, 'participantes': participantes})
         else:
             inscrito = forum.curso.inscritos.all().filter(user_id=request.user.id).exists()
             if inscrito:
-                return render(request, "page_forum.html", {'forum': forum, 'mensagens': mensagem, 'participantes': participantes})
+                return render(request, "page_forum.html",
+                              {'forum': forum, 'mensagens': mensagem, 'participantes': participantes})
             else:
                 messages.warning(request, 'Não esta inscrito no curso')
                 return redirect('profdevhub:forum')
@@ -136,7 +141,14 @@ def page_course(request, course_id):
 
     inscrito = curso.inscritos.filter(user_id=request.user.id).exists()
     today = date.today()
-    return render(request, "page_course.html", {'curso': curso, "inscrito": inscrito, "today": today})
+
+    exercicios_notas = []
+    for exercicio in curso.exercicios.all():
+        nota = exercicio.notas(request.user)
+        exercicios_notas.append({'exercicio': exercicio, 'nota': nota})
+
+    return render(request, "page_course.html",
+                  {'curso': curso, "inscrito": inscrito, "today": today, 'exercicios_notas': exercicios_notas})
 
 
 @login_required
@@ -149,6 +161,8 @@ def page_exercicios(request, exercicios_id):
     else:
 
         inscrito = exercicio.curso.inscritos.filter(user_id=request.user.id).exists()
+        data = date.today() > exercicio.data_encerramento
+        curso_id = exercicio.curso.id
 
         if request.method == 'POST':
             for perguntas in exercicio.perguntas.all():
@@ -156,12 +170,15 @@ def page_exercicios(request, exercicios_id):
                     Submit.objects.create(pergunta=perguntas, student=request.user,
                                           resposta=request.POST.get(str(perguntas.id)))
 
-            curso_id = exercicio.curso.id
             messages.success(request, 'Respostas submetidas')
             return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
 
         if inscrito:
-            return render(request, "exercises.html", {"exercicio": exercicio})
+            if not data:
+                return render(request, "exercises.html", {"exercicio": exercicio})
+            else:
+                messages.warning(request, 'Ja não pode responder')
+                return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
         else:
             messages.warning(request, 'Não esta inscrito no curso')
             return redirect('profdevhub:courses')
@@ -359,7 +376,7 @@ def reset_password(request):
                 messages.success(request, 'Senha atualizada')
                 return redirect('profdevhub:perfil')
             messages.success(request, 'Password atualizada')
-            return redirect('profdevhub:perfil')
+            return redirect('profdevhub:login')
     else:
         form = PasswordResetForm()
     return render(request, 'reset_password_2.html', {'form': form})
