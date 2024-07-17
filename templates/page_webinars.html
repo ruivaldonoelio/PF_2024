@@ -64,7 +64,7 @@
             <h1>{{ workshop.titulo }}</h1>
             <p class="text-break">{{ workshop.texto }}</p>
             {% if inscrito and workshop.data_fim >= today and workshop.data_inicio <= today%}
-                <a href="#">Zoom</a><a href="#" style="margin-top: 6px;">Se quiser ver de novo pode fazer o download do gravação</a>
+                <a href="#">Zoom</a><a href="{{ workshop.arquivo.url }}" style="margin-top: 6px;" download>Se quiser ver de novo pode fazer o download do gravação</a>
             {% endif %}
         </div>
     </div>

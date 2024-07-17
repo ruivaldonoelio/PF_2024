@@ -43,7 +43,7 @@
                     <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit"> Anular inscrição</button>
                 </form>
             {% endif %}
-        
+
             {% if not espera and today < curso.inicio_inscricao %}
                 <a href="{% url 'profdevhub:c_espera_notificacao' curso.id %}">
                     <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">Notificar</button>
@@ -122,8 +122,9 @@
                     <div class="row collapse" id="conteudo" style="margin: 2%;">
                         <div class="col">
                             <ol style="margin: 0;">
-                                <li><a href="#" style="margin-left: 1px;">Aula</a></li>
-                                <li><a href="#" style="margin-left: 1px;">Aula</a></li>
+                                {% for aula in curso.conteudos.all %}
+                                    <li><a href="{{ aula.arquivo.url }}" style="margin-left: 1px;">Aula</a></li>
+                                {% endfor %}
                             </ol>
                         </div>
                         <div class="col"></div>
@@ -201,7 +202,9 @@
                     <div class="row collapse" id="quest" style="margin: 2%;">
                         <div class="col">
                             <ol style="margin: 0;">
-                                <li><a href="#" style="margin-left: 1px; height: initial; margin-right: 7px;" download="">Fazer download</a></li>
+                                {% for quet in curso.questionarios.all %}
+                                    <li><a href="{{ quest.arquivo.url }}" style="margin-left: 1px; height: initial; margin-right: 7px;" download>Fazer download</a></li>
+                                {% endfor %}
                             </ol>
                         </div>
                     </div>
