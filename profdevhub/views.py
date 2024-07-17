@@ -24,13 +24,38 @@ def index(request):
     return render(request, "main.html")
 
 
+def sobre(request):
+    return render(request, "sobre.html")
+
+
+def feedback(request):
+    if request.method == "POST":
+        email = request.POST['email']
+        topico = request.POST['topico']
+        descricao = request.POST['descricao']
+        send_email(email, descricao, topico)
+        messages.success(request, "Email enviado com sucesso")
+        return redirect('profdevhub:feedback')
+    return render(request, "feedback.html")
+
+
 @login_required
 def homepage(request):
     notificacao = Notificacao.objects.filter(user=request.user)
-    curso = Courses.objects.filter(inscritos__user=request.user)[0]
-    notas_media = round(curso.notas_media(request.user), 2)
-    return render(request, "home.html", {'notificacao': notificacao, 'curso': curso, 'notas_media': notas_media})
+    try:
+        curso = Courses.objects.filter(inscritos__user=request.user)[0]
+    except:
+        return render(request, "home.html", {'notificacao': notificacao,'curso': False})
+    else:
+        notas_media = round(curso.notas_media(request.user), 2)
+        return render(request, "home.html", {'notificacao': notificacao, 'curso': curso, 'notas_media': notas_media})
 
+
+@login_required
+def notificacao(request,notificacao_id):
+    notificacao = Notificacao.objects.get(id=notificacao_id)
+    notificacao.delete()
+    return redirect('profdevhub:homepage')
 
 @login_required
 def perfil(request):
@@ -142,7 +167,6 @@ def page_course(request, course_id):
     inscrito = curso.inscritos.filter(user_id=request.user.id).exists()
     today = date.today()
     espera = curso.lista_c.filter(user_id=request.user.id, curso_id=curso.id).exists()
-    print(espera)
 
     exercicios_notas = []
     for exercicio in curso.exercicios.all():
@@ -196,7 +220,8 @@ def page_workshops_webinars(request, workshop_id):
 
     inscrito = workshop.inscritos.filter(user_id=request.user.id).exists()
     today = date.today()
-    return render(request, "page_webinars.html", {'workshop': workshop, 'inscrito': inscrito, 'today': today})
+    espera = workshop.lista_w.filter(user_id=request.user.id, workshop_id=workshop.id).exists()
+    return render(request, "page_webinars.html", {'workshop': workshop, 'inscrito': inscrito, 'today': today, 'espera': espera})
 
 
 @login_required
@@ -239,6 +264,7 @@ def inscricao_anular_workshop(request, workshop_id):
     elif inscrito or tempo:
         inscricao = get_object_or_404(WorkshopInscritos, workshop=workshop.id, user_id=user.id)
         inscricao.delete()
+        workshop.vaga_notificacao()
         messages.success(request, 'Inscrição removida com sucesso.')
     else:
         messages.error(request, 'Ja não é possivel realizar a operação.')
@@ -261,12 +287,16 @@ def c_espera_notificacao(request, curso_id):
 
 def wb_espera_notificacao(request, workshop_id):
     user = request.user
-    workshop = get_object_or_404(Courses, id=workshop_id)
+    workshop = get_object_or_404(Workshop, id=workshop_id)
 
     if date.today() < workshop.inicio_inscricao:
         Espera.objects.create(user=user, workshop=workshop, inscricao=True)
+        messages.success(request, 'Sera notificado quando inicarem as inscrições.')
     else:
         Espera.objects.create(user=user, workshop=workshop, vaga=True)
+        messages.success(request, 'Sera inscrito automaticamente quando houver vagas')
+
+    return redirect(reverse('profdevhub:page_workshops_webinars', args=[workshop_id]))
 
 def login_v(request):
     if request.user.is_authenticated:
@@ -296,7 +326,9 @@ def registo(request):
         if form.is_valid():
             request.session['registo_form'] = form.cleaned_data
             email = form.cleaned_data['email']
-            send_email(request, email)
+            codigo = str(random.randint(1000, 9999))
+            request.session['code'] = codigo
+            send_email(email, codigo, "Codigo de confirmação")
             return redirect('profdevhub:confirmar_email')
     else:
         form = RegistroUsuarioForm()
@@ -370,7 +402,9 @@ def reset_password_email(request):
             return render(request, 'reset_password_1.html', {'error_message': 'Este email não esta resgistado'})
         email = request.POST.get('email')
         request.session['user_email'] = email
-        send_email(request, email)
+        codigo = str(random.randint(1000, 9999))
+        request.session['code'] = codigo
+        send_email(email, codigo, "Codigo de confirmação")
         return redirect('profdevhub:confirmar_email')
 
     return render(request, 'reset_password_1.html')
@@ -407,10 +441,9 @@ def reset_password(request):
     return render(request, 'reset_password_2.html', {'form': form})
 
 
-def send_email(request, email):
-    subject = "Email Subject"
-    body = str(random.randint(1000, 9999))
-    request.session['code'] = body
+def send_email(email, mensagem, topico):
+    subject = topico
+    body = mensagem
     sender = env("email")
     recipients = [sender, email]
     password = env("email_pass")

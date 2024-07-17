@@ -38,6 +38,16 @@
                 </form>
             {% endif %}
         
+            {% if not espera and today < curso.workshop_inscricao %}
+                <a href="{% url 'profdevhub:wb_espera_notificacao' workshop %}">
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">Notificar</button>
+                </a>
+            {% elif not espera and not inscrito and workshop.inicio_inscricao <= today and workshop.fim_inscricao >= today and workshop.limite_inscritos == workshop.inscritos.count %}
+                <a href="{% url 'profdevhub:wb_espera_notificacao' workshop.id %}">
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">Lista de espera</button>
+                </a>
+            {% endif %}
+        
             {% if workshop.data_fim >= today and workshop.data_inicio <= today %}
                 <p style="color: rgb(255,198,30)"> A decorrer </p>
             {% elif workshop.fim_inscricao >= today  and workshop.inicio_inscricao <= today and workshop.limite_inscritos != workshop.inscritos.count%}
