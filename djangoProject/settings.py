@@ -51,21 +51,20 @@ SESSION_COOKIE_SECURE = True
 
 LOGIN_URL = '/login'
 
-# URL para redirecionar após logout
 LOGOUT_URL = '/logout'
 
-# URL para redirecionar após um login bem-sucedido
 LOGIN_REDIRECT_URL = '/homepage'
 
-# URL para redirecionar após um logout bem-sucedido
 LOGOUT_REDIRECT_URL = '/login'
 
-# Application definition
+
+
 
 INSTALLED_APPS = [
     'profdevhub',
     'daphne',
     'channels',
+    'social_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,9 +73,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.instagram.InstagramOAuth2',
+)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -153,13 +159,25 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
+
+LANGUAGE_CODE = 'pt'
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('pt', 'Português'),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+LANGUAGE_COOKIE_NAME = 'django_language'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -196,3 +214,24 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 300.0,  # verifica a cada hora
     },
 }
+
+SOCIAL_AUTH_GITHUB_KEY = env("github_id")
+SOCIAL_AUTH_GITHUB_SECRET = env("github_secret")
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env("google_id")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env("google_secret")
+
+SOCIAL_AUTH_INSTAGRAM_KEY = ''
+SOCIAL_AUTH_INSTAGRAM_SECRET = ''
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'profdevhub.social_auth.check_user_exists_and_login',
+)

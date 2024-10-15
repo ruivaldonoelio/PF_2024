@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Registo{% endblock %}
+{% block extra_title %}{% trans "| Registo" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/styles.css'%}" />
@@ -12,21 +13,21 @@
     <div class="col-md-12 d-flex flex-column align-items-center" style="height: 0%;">
         <form class="form" action = '{% url 'profdevhub:registo1' %}' method="post">
             {% csrf_token %}
-            <div class="title">Registo<br /></div>
-            <input type="text" placeholder="Nome do usuario" name="username" class="input" />
+            <div class="title">{% trans "Registo" %}<br /></div>
+            <input type="text" placeholder={% trans "Nome do usuario" %} name="username" class="input" />
             {{ form.username.errors }}
-            <input type="text" placeholder="Primeiro Nome" name="first_name" class="input"/>
+            <input type="text" placeholder={% trans "Primeiro Nome" %} name="first_name" class="input"/>
             {{ form.first_name.errors }}
-            <input type="text" placeholder="Ultimo Nome" name="last_name" class="input"/>
+            <input type="text" placeholder={% trans "Ultimo Nome" %} name="last_name" class="input"/>
             {{ form.last_name.errors }}
-            <input type="email" placeholder="Email" name="email" class="input"/>
+            <input type="email" placeholder={% trans "Email" %} name="email" class="input"/>
             {{ form.email.errors }}
-            <input type="password" placeholder="Password" name="password" class="input" />
+            <input type="password" placeholder={% trans "Password" %} name="password" class="input" />
             {{ form.password.errors }}
-            <input type="password" placeholder="Re-Password" name="password_confirm" class="input" />
+            <input type="password" placeholder={% trans "Re-Password" %} name="password_confirm" class="input" />
             {{ form.password_confirm.errors }}
             {{ form.non_field_errors }}
-            <button class="button-confirm" type="submit" >Let`s go →</button>
+            <button class="button-confirm" type="submit" >{% trans "Seguinte →" %}</button>
         </form>
     </div>
 </div>

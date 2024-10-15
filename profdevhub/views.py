@@ -1,17 +1,16 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .form import *
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.models import User
 from .models import *
 from django.urls import reverse
-from datetime import date, timedelta
+from datetime import date
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 import smtplib
+from django.utils.translation import gettext as _
 from email.mime.text import MIMEText
 import random
-import re
 from environ import Env
 
 env = Env()
@@ -34,7 +33,7 @@ def feedback(request):
         topico = request.POST['topico']
         descricao = request.POST['descricao']
         send_email(email, descricao, topico)
-        messages.success(request, "Email enviado com sucesso")
+        messages.success(request, _("Email enviado com sucesso"))
         return redirect('profdevhub:feedback')
     return render(request, "feedback.html")
 
@@ -45,17 +44,18 @@ def homepage(request):
     try:
         curso = Courses.objects.filter(inscritos__user=request.user)[0]
     except:
-        return render(request, "home.html", {'notificacao': notificacao,'curso': False})
+        return render(request, "home.html", {'notificacao': notificacao, 'curso': False})
     else:
         notas_media = round(curso.notas_media(request.user), 2)
         return render(request, "home.html", {'notificacao': notificacao, 'curso': curso, 'notas_media': notas_media})
 
 
 @login_required
-def notificacao(request,notificacao_id):
+def notificacao(request, notificacao_id):
     notificacao = Notificacao.objects.get(id=notificacao_id)
     notificacao.delete()
     return redirect('profdevhub:homepage')
+
 
 @login_required
 def perfil(request):
@@ -71,7 +71,7 @@ def perfil(request):
             user_details.cidade = form.cleaned_data.get('cidade')
             user_details.codigo_postal = form.cleaned_data.get('codigo_postal')
             user_details.save()
-            messages.success(request, 'Seu perfil foi atualizado com sucesso!')
+            messages.success(request, _('Seu perfil foi atualizado com sucesso!'))
             return redirect('profdevhub:perfil')  # Altere 'profile' para a página de redirecionamento desejada
     else:
         form = UserUpdateForm(instance=user, initial={
@@ -136,7 +136,7 @@ def page_forum(request, forum_id):
     try:
         forum = get_object_or_404(Forum, id=forum_id)
     except:
-        messages.error(request, 'Este forum não existe')
+        messages.error(request, _('Este forum não existe'))
         return redirect('profdevhub:forum')
     else:
 
@@ -152,7 +152,7 @@ def page_forum(request, forum_id):
                 return render(request, "page_forum.html",
                               {'forum': forum, 'mensagens': mensagem, 'participantes': participantes})
             else:
-                messages.warning(request, 'Não esta inscrito no curso')
+                messages.warning(request, _('Não esta inscrito no curso'))
                 return redirect('profdevhub:forum')
 
 
@@ -161,7 +161,7 @@ def page_course(request, course_id):
     try:
         curso = get_object_or_404(Courses, id=course_id)
     except:
-        messages.error(request, 'O curso não existe')
+        messages.error(request, _('O curso não existe'))
         return redirect('profdevhub:courses')
 
     inscrito = curso.inscritos.filter(user_id=request.user.id).exists()
@@ -174,7 +174,8 @@ def page_course(request, course_id):
         exercicios_notas.append({'exercicio': exercicio, 'nota': nota})
 
     return render(request, "page_course.html",
-                  {'curso': curso, "inscrito": inscrito, "today": today, 'exercicios_notas': exercicios_notas, 'espera': espera})
+                  {'curso': curso, "inscrito": inscrito, "today": today, 'exercicios_notas': exercicios_notas,
+                   'espera': espera})
 
 
 @login_required
@@ -182,7 +183,7 @@ def page_exercicios(request, exercicios_id):
     try:
         exercicio = get_object_or_404(Exercicios, id=exercicios_id)
     except:
-        messages.error(request, 'O exercicio não existe')
+        messages.error(request, _('O exercicio não existe'))
         return redirect('profdevhub:courses')
     else:
 
@@ -196,17 +197,17 @@ def page_exercicios(request, exercicios_id):
                     Submit.objects.create(pergunta=perguntas, student=request.user,
                                           resposta=request.POST.get(str(perguntas.id)))
 
-            messages.success(request, 'Respostas submetidas')
+            messages.success(request, _('Respostas submetidas'))
             return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
 
         if inscrito:
             if not data:
                 return render(request, "exercises.html", {"exercicio": exercicio})
             else:
-                messages.warning(request, 'Ja não pode responder')
+                messages.warning(request, _('Ja não pode responder'))
                 return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
         else:
-            messages.warning(request, 'Não esta inscrito no curso')
+            messages.warning(request, _('Não esta inscrito no curso'))
             return redirect('profdevhub:courses')
 
 
@@ -215,13 +216,14 @@ def page_workshops_webinars(request, workshop_id):
     try:
         workshop = get_object_or_404(Workshop, id=workshop_id)
     except:
-        messages.success(request, 'O workshop ou webinars não existe')
+        messages.success(request, _('O workshop ou webinars não existe'))
         return redirect('profdevhub:workshops_webinars')
 
     inscrito = workshop.inscritos.filter(user_id=request.user.id).exists()
     today = date.today()
     espera = workshop.lista_w.filter(user_id=request.user.id, workshop_id=workshop.id).exists()
-    return render(request, "page_webinars.html", {'workshop': workshop, 'inscrito': inscrito, 'today': today, 'espera': espera})
+    return render(request, "page_webinars.html",
+                  {'workshop': workshop, 'inscrito': inscrito, 'today': today, 'espera': espera})
 
 
 @login_required
@@ -236,14 +238,14 @@ def inscricao_anular_curso(request, curso_id):
     if not inscrito and vaga and tempo:
         inscricao = CursoIncritos(curso=curso, user=user)
         inscricao.save()
-        messages.success(request, 'Inscrição realizada com sucesso!')
+        messages.success(request, _('Inscrição realizada com sucesso!'))
     elif inscrito or tempo:
         inscricao = get_object_or_404(CursoIncritos, curso_id=curso.id, user_id=user.id)
         inscricao.delete()
         curso.vaga_notificacao()
-        messages.success(request, 'Inscrição removida com sucesso.')
+        messages.success(request, _('Inscrição removida com sucesso.'))
     else:
-        messages.error(request, 'Ja não é possivel realizar a operação.')
+        messages.error(request, _('Ja não é possivel realizar a operação.'))
 
     return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
 
@@ -260,14 +262,14 @@ def inscricao_anular_workshop(request, workshop_id):
     if not inscrito and vaga and tempo:
         inscricao = WorkshopInscritos(workshop=workshop, user=user)
         inscricao.save()
-        messages.success(request, 'Inscrição realizada com sucesso!')
+        messages.success(request, _('Inscrição realizada com sucesso!'))
     elif inscrito or tempo:
         inscricao = get_object_or_404(WorkshopInscritos, workshop=workshop.id, user_id=user.id)
         inscricao.delete()
         workshop.vaga_notificacao()
-        messages.success(request, 'Inscrição removida com sucesso.')
+        messages.success(request, _('Inscrição removida com sucesso.'))
     else:
-        messages.error(request, 'Ja não é possivel realizar a operação.')
+        messages.error(request, _('Ja não é possivel realizar a operação.'))
 
     return redirect(reverse('profdevhub:page_workshops_webinars', args=[workshop_id]))
 
@@ -278,12 +280,13 @@ def c_espera_notificacao(request, curso_id):
 
     if date.today() < curso.inicio_inscricao:
         Espera.objects.create(user=user, curso=curso, inscricao=True)
-        messages.success(request, 'Sera notificado quando inicarem as inscrições.')
+        messages.success(request, _('Sera notificado quando inicarem as inscrições.'))
     else:
-        messages.success(request, 'Sera inscrito automaticamente quando houver vagas')
+        messages.success(request, _('Sera inscrito automaticamente quando houver vagas'))
         Espera.objects.create(user=user, curso=curso, vaga=True)
 
     return redirect(reverse('profdevhub:page_courses', args=[curso_id]))
+
 
 def wb_espera_notificacao(request, workshop_id):
     user = request.user
@@ -291,16 +294,17 @@ def wb_espera_notificacao(request, workshop_id):
 
     if date.today() < workshop.inicio_inscricao:
         Espera.objects.create(user=user, workshop=workshop, inscricao=True)
-        messages.success(request, 'Sera notificado quando inicarem as inscrições.')
+        messages.success(request, _('Sera notificado quando inicarem as inscrições.'))
     else:
         Espera.objects.create(user=user, workshop=workshop, vaga=True)
-        messages.success(request, 'Sera inscrito automaticamente quando houver vagas')
+        messages.success(request, _('Sera inscrito automaticamente quando houver vagas'))
 
     return redirect(reverse('profdevhub:page_workshops_webinars', args=[workshop_id]))
 
+
 def login_v(request):
     if request.user.is_authenticated:
-        messages.warning(request, 'Tera de fazer o logout para aceder a pagina.')
+        messages.warning(request, _('Tera de fazer o logout para aceder a pagina.'))
         return redirect('profdevhub:homepage')
 
     if request.method == 'POST':
@@ -348,7 +352,7 @@ def confirmar_email(request):
                 form = UserDetailsForm()
             return render(request, 'register-1.html', {"form": form})
         else:
-            return render(request, 'confirmation.html', {"error_message": "Código incorreto. Tente novamente."})
+            return render(request, 'confirmation.html', {"error_message": _("Código incorreto. Tente novamente.")})
     else:
         return render(request, 'confirmation.html')
 
@@ -388,10 +392,10 @@ def up_documentos(request):
             del request.session['registo_form']
             del request.session['details_form']
 
-            messages.success(request, 'Conta criada com sucesso')
+            messages.success(request, _('Conta criada com sucesso'))
             return redirect('profdevhub:perfil')
         else:
-            return render(request, 'up_doc.html', {'error_message': 'Por favor, envie ambos os arquivos.'})
+            return render(request, 'up_doc.html', {'error_message': _('Por favor, envie ambos os arquivos.')})
     else:
         return render(request, 'up_doc.html')
 
@@ -399,12 +403,12 @@ def up_documentos(request):
 def reset_password_email(request):
     if request.method == "POST":
         if not User.objects.filter(email=request.POST['email']).exists():
-            return render(request, 'reset_password_1.html', {'error_message': 'Este email não esta resgistado'})
+            return render(request, 'reset_password_1.html', {'error_message': _('Este email não esta resgistado')})
         email = request.POST.get('email')
         request.session['user_email'] = email
         codigo = str(random.randint(1000, 9999))
         request.session['code'] = codigo
-        send_email(email, codigo, "Codigo de confirmação")
+        send_email(email, codigo, _("Codigo de confirmação"))
         return redirect('profdevhub:confirmar_email')
 
     return render(request, 'reset_password_1.html')
@@ -419,7 +423,7 @@ def reset_password(request):
                 user_email = request.session['user_email']
                 del request.session['user_email']
         except:
-            messages.error(request, 'Não é possivel aceder ao site')
+            messages.error(request, _('Não é possivel aceder ao site'))
             return redirect('profdevhub:login')
 
     if request.method == 'POST':
@@ -432,9 +436,9 @@ def reset_password(request):
             update_session_auth_hash(request, usuario)
 
             if request.user.is_authenticated:
-                messages.success(request, 'Senha atualizada')
+                messages.success(request, _('Senha atualizada'))
                 return redirect('profdevhub:perfil')
-            messages.success(request, 'Password atualizada')
+            messages.success(request, _('Password atualizada'))
             return redirect('profdevhub:login')
     else:
         form = PasswordResetForm()

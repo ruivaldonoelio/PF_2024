@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 
 {% block extra_css %}
@@ -10,13 +11,14 @@
     <div class="row d-flex justify-content-center align-items-center justify-content-md-between" style="height: 100%; width: 100%; padding: 0; margin: 0;">
         <div class="col-auto text-center d-flex flex-column justify-content-center align-items-center col-grow" style="height: 100%; padding: 29px; width: 46%; max-height: 100%;">
             <p>
-                <strong><span style="color: rgb(5, 5, 5);">Membros</span></strong>
+                <strong><span style="color: rgb(5, 5, 5);">{% trans "Membros" %}</span></strong>
             </p>
-            <h1 style="font-size: 61px;"><span style="color: rgb(5, 5, 5);">Desenvolva suas habilidades profissionais com ProfDevHub.</span></h1>
+            <h1 style="font-size: 61px;"><span style="color: rgb(5, 5, 5);">{% trans "Desenvolva suas habilidades profissionais com ProfDevHub." %}</span></h1>
             <p>
-                Participe de cursos especializados, workshops e webinars projetados para aprimorar suas habilidades docentes. Acesse recursos valiosos e aprenda com outros educadores para enriquecer sua prática profissional.</p>
+                {% trans "Participe de cursos especializados, workshops e webinars projetados para aprimorar suas habilidades docentes. Acesse recursos valiosos e aprenda com outros educadores para enriquecer sua prática profissional." %}
+            </p>
 
-            <button onclick="url_registro()" class="comic-button">Criar uma conta</button>
+            <button onclick="url_registro()" class="comic-button">{% trans "Criar uma conta" %}</button>
         </div>
         <div class="col d-lg-flex align-items-center justify-content-lg-center image-hide" style="height: 100%; width: 100%; margin: 0; padding: 0; max-height: 100%;">
             <img class="img-fluid" src="{% static '../static/img/Sandy_Eco-08_Single-02.png' %}" style="height: initial; width: initial;" width="642" height="642" />

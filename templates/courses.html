@@ -1,25 +1,19 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Cursos{% endblock %}
+{% block extra_title %}{% trans "| Cursos" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/pages.css'%}" />
 {% endblock %}
 
 {% block content %}
-{% if messages %}
-  <ul class="messages" style="margin-bottom: 0">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 <div class="container" id="background">
     <div class="col offset-lg-0 d-flex flex-column justify-content-center align-items-center">
         <header class="text-center my-4">
-            <h1>Desenvolvimento Profissional</h1>
-            <p class="lead">Aprimore suas habilidades e conhecimentos de ensino com nossa lista selecionada de cursos de desenvolvimento profissional.</p>
+            <h1>{% trans "Desenvolvimento Profissional" %}</h1>
+            <p class="lead">{% trans "Aprimore suas habilidades e conhecimentos de ensino com nossa lista selecionada de cursos de desenvolvimento profissional." %}</p>
         </header>
 
         <main class="container">
@@ -53,15 +47,15 @@
                             </div>
                             <div class="d-flex justify-content-between" style="margin: 0 5%">
                                 {% if curso.data_fim >= today and curso.data_inicio <= today %}
-                                    <p style="color: rgb(255,198,30)"> A decorrer </p>
+                                    <p style="color: rgb(255,198,30)">{% trans "A decorrer" %}</p>
                                 {% elif curso.fim_inscricao >= today  and curso.inicio_inscricao <= today and curso.limite_inscritos != curso.inscritos.count%}
                                     <p class="ant-typography">Vagas: {{ curso.inscritos.count }}/{{ curso.limite_inscritos }}</p>
-                                    <p style="color: rgb(91,191,33)">Incrições abertas</p>
+                                    <p style="color: rgb(91,191,33)">{% trans "Incrições abertas" %}</p>
                                 {% elif curso.limite_inscritos == curso.inscritos.count and curso.fim_inscricao >= today  and curso.inicio_inscricao <= today%}
-                                    <p class="ant-typography">Vagas: {{ curso.inscritos.count }}/{{ curso.limite_inscritos }}</p>
-                                    <p style="color: rgb(255,198,30)">Sem vagas</p>
+                                    <p class="ant-typography">{% trans "Vagas:" %} {{ curso.inscritos.count }}/{{ curso.limite_inscritos }}</p>
+                                    <p style="color: rgb(255,198,30)">{% trans "Sem vagas" %}</p>
                                 {% elif curso.fim_inscricao < today %}
-                                    <p style="color: rgb(191,33,33)">Incrições fechadas</p>
+                                    <p style="color: rgb(191,33,33)">{% trans "Incrições fechadas" %}</p>
                                 {% endif %}
                             </div>
                         </article>

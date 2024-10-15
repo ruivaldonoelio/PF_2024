@@ -1,0 +1,704 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-15 02:00+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\profdevhub\form.py:25
+msgid "As senhas não coincidem. Por favor, digite novamente."
+msgstr "The passwords do not match. Please enter again."
+
+#: .\profdevhub\form.py:31
+msgid "Este nome de usuário já está em uso. Por favor, escolha outro."
+msgstr "This username is already in use. Please choose another."
+
+#: .\profdevhub\form.py:37
+msgid "Este email já está em uso. Por favor, escolha outro."
+msgstr "This email is already in use. Please choose another."
+
+#: .\profdevhub\form.py:62
+msgid "Você deve ter pelo menos 24 anos para se cadastrar."
+msgstr "You must be at least 24 years old to register."
+
+#: .\profdevhub\form.py:68
+msgid "O código postal deve estar no formato '1111-111'."
+msgstr "The postal code must be in the format '1111-111'."
+
+#: .\profdevhub\form.py:82
+msgid "A nova senha e a confirmação de senha não correspondem."
+msgstr "The new password and the password confirmation do not match."
+
+#: .\profdevhub\form.py:92
+msgid "O campo Email é obrigatório."
+msgstr "The Email field is required."
+
+#: .\profdevhub\form.py:104 .\profdevhub\form.py:108
+msgid "Email ou senha inválidos."
+msgstr "Invalid email or password."
+
+#: .\profdevhub\form.py:106
+msgid "Esta conta está inativa."
+msgstr "This account is inactive."
+
+#: .\profdevhub\form.py:128
+msgid "Este email já está em uso."
+msgstr "This email is already in use."
+
+#: .\profdevhub\form.py:134
+msgid "O formato do código postal deve ser 1111-111."
+msgstr "The format of the postal code must be 1111-111."
+
+#: .\profdevhub\views.py:36
+msgid "Email enviado com sucesso"
+msgstr "Email sent successfully"
+
+#: .\profdevhub\views.py:74
+#, fuzzy
+#| msgid "Email enviado com sucesso"
+msgid "Seu perfil foi atualizado com sucesso!"
+msgstr "Your profile has been updated successfully!"
+
+#: .\profdevhub\views.py:139
+msgid "Este forum não existe"
+msgstr "This forum does not exist"
+
+#: .\profdevhub\views.py:155 .\profdevhub\views.py:210
+msgid "Não esta inscrito no curso"
+msgstr "Not enrolled in the course"
+
+#: .\profdevhub\views.py:164
+msgid "O curso não existe"
+msgstr "The course does not exist"
+
+#: .\profdevhub\views.py:186
+msgid "O exercicio não existe"
+msgstr "The exercise does not exist"
+
+#: .\profdevhub\views.py:200
+msgid "Respostas submetidas"
+msgstr "Submitted answers"
+
+#: .\profdevhub\views.py:207
+msgid "Ja não pode responder"
+msgstr "You can no longer respond"
+
+#: .\profdevhub\views.py:219
+msgid "O workshop ou webinars não existe"
+msgstr "The workshop or webinars do not exist"
+
+#: .\profdevhub\views.py:241 .\profdevhub\views.py:265
+msgid "Inscrição realizada com sucesso!"
+msgstr "Registration successful!"
+
+#: .\profdevhub\views.py:246 .\profdevhub\views.py:270
+msgid "Inscrição removida com sucesso."
+msgstr "Registration removed successfully."
+
+#: .\profdevhub\views.py:248 .\profdevhub\views.py:272
+msgid "Ja não é possivel realizar a operação."
+msgstr "It is no longer possible to perform the operation."
+
+#: .\profdevhub\views.py:283 .\profdevhub\views.py:297
+msgid "Sera notificado quando inicarem as inscrições."
+msgstr "You will be notified when registrations begin."
+
+#: .\profdevhub\views.py:285 .\profdevhub\views.py:300
+msgid "Sera inscrito automaticamente quando houver vagas"
+msgstr "You will be automatically registered when there are spots available."
+
+#: .\profdevhub\views.py:307
+msgid "Tera de fazer o logout para aceder a pagina."
+msgstr "You will need to log out to access the page."
+
+#: .\profdevhub\views.py:355
+msgid "Código incorreto. Tente novamente."
+msgstr "Incorrect code. Please try again."
+
+#: .\profdevhub\views.py:395
+#, fuzzy
+#| msgid "Email enviado com sucesso"
+msgid "Conta criada com sucesso"
+msgstr "Account created successfully."
+
+#: .\profdevhub\views.py:398
+msgid "Por favor, envie ambos os arquivos."
+msgstr "Please send both files."
+
+#: .\profdevhub\views.py:406
+msgid "Este email não esta resgistado"
+msgstr "This email is not registered."
+
+#: .\profdevhub\views.py:411
+#, fuzzy
+#| msgid "Código de Verificação"
+msgid "Codigo de confirmação"
+msgstr "Confirmation code"
+
+#: .\profdevhub\views.py:426
+msgid "Não é possivel aceder ao site"
+msgstr "Cannot access the site."
+
+#: .\profdevhub\views.py:439
+msgid "Senha atualizada"
+msgstr "Password updated."
+
+#: .\profdevhub\views.py:441
+msgid "Password atualizada"
+msgstr "Password updated."
+
+
+#: .\templates\base.html:36 .\templates\courses.html:15
+msgid "Desenvolvimento Profissional"
+msgstr "Professional Development"
+
+#: .\templates\base.html:37
+msgid "Workshops & Webinars"
+msgstr "Workshops & Webinars"
+
+#: .\templates\base.html:38
+msgid "Grupos de Discussão"
+msgstr "Discussion Groups"
+
+#: .\templates\base.html:39
+msgid "Biblioteca de Recursos"
+msgstr "Resource Library"
+
+#: .\templates\base.html:52 .\templates\profile.html:16
+msgid "Perfil"
+msgstr "Profile"
+
+#: .\templates\base.html:53 .\templates\profile.html:66
+msgid "Sair"
+msgstr "Logout"
+
+#: .\templates\base.html:57 .\templates\forum.html:35 .\templates\login.html:24
+msgid "Entrar"
+msgstr "Login"
+
+#: .\templates\base.html:79 .\templates\sobre.html:11
+msgid "Sobre"
+msgstr "About"
+
+#: .\templates\confirmation.html:5
+msgid "| Confirmação de email"
+msgstr "| Email Confirmation"
+
+#: .\templates\confirmation.html:16
+msgid "Código de Verificação"
+msgstr "Verification Code"
+
+#: .\templates\confirmation.html:17
+msgid "Enviamos um código de verificação para o seu email"
+msgstr "We have sent a verification code to your email"
+
+#: .\templates\confirmation.html:28
+msgid "Verificar"
+msgstr "Verify"
+
+#: .\templates\courses.html:5
+msgid "| Cursos"
+msgstr "| Courses"
+
+#: .\templates\courses.html:16
+msgid ""
+"Aprimore suas habilidades e conhecimentos de ensino com nossa lista "
+"selecionada de cursos de desenvolvimento profissional."
+msgstr ""
+"Enhance your teaching skills and knowledge with our curated list of "
+"professional development courses."
+
+#: .\templates\courses.html:50 .\templates\page_course.html:52
+#: .\templates\page_webinars.html:46 .\templates\workshops.html:48
+msgid "A decorrer"
+msgstr "Ongoing"
+
+#: .\templates\courses.html:53 .\templates\page_course.html:54
+#: .\templates\page_webinars.html:48 .\templates\workshops.html:51
+msgid "Incrições abertas"
+msgstr "Registration Open"
+
+#: .\templates\courses.html:55 .\templates\workshops.html:50
+#: .\templates\workshops.html:53
+msgid "Vagas:"
+msgstr "Spots:"
+
+#: .\templates\courses.html:56 .\templates\page_course.html:57
+#: .\templates\page_webinars.html:51 .\templates\workshops.html:54
+msgid "Sem vagas"
+msgstr "No spots"
+
+#: .\templates\courses.html:58 .\templates\page_course.html:60
+#: .\templates\page_webinars.html:54 .\templates\workshops.html:56
+msgid "Incrições fechadas"
+msgstr "Registration Closed"
+
+#: .\templates\exercises.html:5
+msgid "| Exercício|"
+msgstr "| Exercise|"
+
+#: .\templates\exercises.html:23
+msgid "Submeter"
+msgstr "Submit"
+
+#: .\templates\feedback.html:5 .\templates\sobre.html:5
+msgid "| Sobre"
+msgstr "| About"
+
+#: .\templates\feedback.html:16
+msgid "Reclamações"
+msgstr "Complaints"
+
+#: .\templates\feedback.html:21 .\templates\profile.html:38
+#: .\templates\register.html:23 .\templates\reset_password_1.html:17
+msgid "Email"
+msgstr "Email"
+
+#: .\templates\feedback.html:23
+msgid "Topico"
+msgstr "Topic"
+
+#: .\templates\feedback.html:25
+msgid "Feedback"
+msgstr "Feedback"
+
+#: .\templates\feedback.html:26
+msgid "Diversos"
+msgstr "Various"
+
+#: .\templates\feedback.html:29 .\templates\page_course.html:76
+msgid "Descrição"
+msgstr "Description"
+
+#: .\templates\feedback.html:33
+msgid "Enviar"
+msgstr "Send"
+
+#: .\templates\forum.html:5
+msgid "| Foruns"
+msgstr "| Forums"
+
+#: .\templates\forum.html:15
+msgid "Fóruns de discussão"
+msgstr "Discussion Forums"
+
+#: .\templates\forum.html:16
+msgid ""
+"Este é um centro central para os professores se envolverem em discussões "
+"sobre tópicos educacionais, compartilharem ideias e buscarem conselhos."
+msgstr ""
+"This is a central hub for teachers to engage in discussions on educational "
+"topics, share ideas, and seek advice."
+
+#: .\templates\home.html:5
+msgid "| Home"
+msgstr "| Home"
+
+#: .\templates\home.html:14
+msgid "Bem vindo!"
+msgstr "Welcome!"
+
+#: .\templates\home.html:15
+msgid ""
+"Este é o seu painel onde você pode visualizar suas atividades e notificações "
+"recentes."
+msgstr ""
+"This is your dashboard where you can view your activities and recent "
+"notifications."
+
+#: .\templates\home.html:21
+msgid "Notificações recentes"
+msgstr "Recent Notifications"
+
+#: .\templates\home.html:40
+msgid "Inscrições atuais"
+msgstr "Current Enrollments."
+
+#: .\templates\home.html:44
+#, fuzzy
+#| msgid "Média:"
+msgid "Media:"
+msgstr "Average:"
+
+#: .\templates\home.html:46
+msgid "Sem inscrições"
+msgstr "No Enrollments."
+
+#: .\templates\login.html:5
+msgid "| Entrar"
+msgstr "| Login"
+
+#: .\templates\login.html:16
+msgid "Bem vindo ao ProfDevHub"
+msgstr "Welcome to ProfDevHub"
+
+#: .\templates\login.html:17
+msgid "A faça o login para ter acesso a plataforma"
+msgstr "Please log in to access the platform"
+
+#: .\templates\login.html:29
+msgid "Esqueceu-se da password"
+msgstr "Forgot your password?"
+
+#: .\templates\login.html:30
+msgid "Ainda não tem conta? Faça o registo"
+msgstr "Don't have an account yet? Register here"
+
+#: .\templates\login.html:66
+msgid "Let`s go →"
+msgstr "Let’s go →"
+
+#: .\templates\main.html:14
+msgid "Membros"
+msgstr "Members"
+
+#: .\templates\main.html:16
+msgid "Desenvolva suas habilidades profissionais com ProfDevHub."
+msgstr "Develop your professional skills with ProfDevHub."
+
+#: .\templates\main.html:18
+msgid ""
+"Participe de cursos especializados, workshops e webinars projetados para "
+"aprimorar suas habilidades docentes. Acesse recursos valiosos e aprenda com "
+"outros educadores para enriquecer sua prática profissional."
+msgstr ""
+"Participate in specialized courses, workshops, and webinars designed to "
+"enhance your teaching skills. Access valuable resources and learn from other "
+"educators to enrich your professional practice."
+
+#: .\templates\main.html:21
+msgid "Criar uma conta"
+msgstr "Create an account"
+
+#: .\templates\page_course.html:5
+msgid "| Cursos|"
+msgstr "| Courses|"
+
+#: .\templates\page_course.html:25
+msgid "Forum"
+msgstr "Forum"
+
+#: .\templates\page_course.html:32 .\templates\page_webinars.html:26
+msgid "Inscrever"
+msgstr "Enroll"
+
+#: .\templates\page_course.html:37 .\templates\page_webinars.html:31
+msgid "Anular inscrição"
+msgstr "Unenroll"
+
+#: .\templates\page_course.html:43 .\templates\page_webinars.html:37
+msgid "Notificar"
+msgstr "Notify"
+
+#: .\templates\page_course.html:47 .\templates\page_webinars.html:41
+msgid "Lista de espera"
+msgstr "Waiting list"
+
+#: .\templates\page_course.html:110
+msgid "Conteúdo"
+msgstr "Content"
+
+#: .\templates\page_course.html:146
+msgid "Exercícios"
+msgstr "Exercises"
+
+#: .\templates\page_course.html:158
+msgid "Limite:"
+msgstr "Limit:"
+
+#: .\templates\page_course.html:159
+msgid "Nota:"
+msgstr "Grade:"
+
+#: .\templates\page_course.html:190
+msgid "Questionários"
+msgstr "Quizzes"
+
+#: .\templates\page_course.html:200
+msgid "Fazer download"
+msgstr "Download"
+
+#: .\templates\page_forum.html:5
+msgid "| Forum |"
+msgstr "| Forum |"
+
+#: .\templates\page_forum.html:105
+msgid "Participantes"
+msgstr "Participants"
+
+#: .\templates\page_webinars.html:5
+msgid "| Workshop & Webinars|"
+msgstr "| Workshops & Webinars |"
+
+#: .\templates\page_webinars.html:61
+msgid "Se quiser ver de novo pode fazer o download do gravação"
+msgstr "If you want to see it again, you can download the recording"
+
+#: .\templates\profile.html:5
+msgid "| Perfil"
+msgstr "| Profile"
+
+#: .\templates\profile.html:32 .\templates\register.html:19
+msgid "Primeiro Nome"
+msgstr "First Name"
+
+#: .\templates\profile.html:35 .\templates\register.html:21
+msgid "Ultimo Nome"
+msgstr "Last Name"
+
+#: .\templates\profile.html:41 .\templates\register-1.html:17
+msgid "Telemovel"
+msgstr "Mobile"
+
+#: .\templates\profile.html:44 .\templates\register-1.html:21
+msgid "Endereço"
+msgstr "Address"
+
+#: .\templates\profile.html:47 .\templates\register-1.html:23
+msgid "Cidade"
+msgstr "City"
+
+#: .\templates\profile.html:50
+msgid "Codigo-Postal"
+msgstr "Postal Code"
+
+#: .\templates\profile.html:55
+msgid "Salvar"
+msgstr "Save"
+
+#: .\templates\profile.html:61
+msgid "Redefinir palavra-passe"
+msgstr "Reset password"
+
+#: .\templates\register-1.html:5 .\templates\register.html:5
+msgid "| Registo"
+msgstr "| Register"
+
+#: .\templates\register-1.html:16 .\templates\register.html:16
+msgid "Registo"
+msgstr "Register"
+
+#: .\templates\register-1.html:19
+msgid "Data de Nascimento"
+msgstr "Date of Birth"
+
+#: .\templates\register-1.html:25
+msgid "Codigo Postal"
+msgstr "Postal Code"
+
+#: .\templates\register-1.html:27 .\templates\register.html:30
+#: .\templates\reset_password_1.html:23 .\templates\reset_password_2.html:20
+msgid "Seguinte →"
+msgstr "Next →"
+
+#: .\templates\register.html:17
+msgid "Nome do usuario"
+msgstr "Username"
+
+#: .\templates\register.html:25
+msgid "Password"
+msgstr "Password"
+
+#: .\templates\register.html:27 .\templates\reset_password_2.html:18
+msgid "Re-Password"
+msgstr "Re-Password"
+
+#: .\templates\reset_password_1.html:5 .\templates\reset_password_2.html:5
+msgid "| Recuperar Password"
+msgstr "| Recover Password"
+
+#: .\templates\reset_password_1.html:16
+msgid "Insira o email"
+msgstr "Enter email"
+
+#: .\templates\reset_password_2.html:16
+msgid "Insira a password"
+msgstr "Enter password"
+
+#: .\templates\reset_password_2.html:17
+msgid "Nova Password"
+msgstr "New Password"
+
+#: .\templates\resource.html:5
+msgid "| Recursos"
+msgstr "| Resources"
+
+#: .\templates\resource.html:15
+msgid "Recursos educacionais"
+msgstr "Educational Resources"
+
+#: .\templates\resource.html:16
+msgid ""
+"Explore uma variedade de recursos educacionais compartilhados por colegas "
+"educadores."
+msgstr "Explore a variety of educational resources shared by fellow educators."
+
+#: .\templates\resource.html:20 .\templates\workshops.html:25
+msgid "Procurar"
+msgstr "Search"
+
+#: .\templates\resource.html:35
+msgid "Enviado por:"
+msgstr "Submitted by:"
+
+#: .\templates\resource.html:36
+msgid "Data:"
+msgstr "Date:"
+
+#: .\templates\sobre.html:13
+msgid ""
+"é uma plataforma online inovadora criada para impulsionar o desenvolvimento "
+"profissional dos professores. Em um mundo educacional em constante evolução, "
+"é essencial que os educadores tenham acesso a recursos que os ajudem a "
+"aprimorar suas competências pedagógicas, compartilhar melhores práticas e se "
+"manterem atualizados com as últimas tendências e inovações no ensino."
+msgstr ""
+"is an innovative online platform created to boost teachers' professional "
+"development.In a constantly evolving educational world, it is essential that "
+"educators have access to resources that help them enhance their pedagogical "
+"skills, share best practices, and stay updated with the latest teaching "
+"trends and innovations."
+
+#: .\templates\sobre.html:14
+msgid "Na"
+msgstr "At"
+
+#: .\templates\sobre.html:14
+msgid ""
+"oferecemos uma variedade de módulos de formação abrangentes que atendem às "
+"necessidades de professores em todas as fases de suas carreiras. Nossa "
+"plataforma foi projetada para ser intuitiva e fácil de usar, permitindo que "
+"os educadores acessem conteúdos de qualidade e participem de experiências de "
+"aprendizado envolventes e flexíveis."
+msgstr ""
+"we offer a variety of comprehensive training modules that meet the needs of "
+"teachers at all stages of their careers. Our platform is designed to be "
+"intuitive and easy to use, allowing educators to access quality content and "
+"engage in immersive and flexible learning experiences."
+
+#: .\templates\sobre.html:15
+msgid "Além dos recursos de formação, a"
+msgstr "In addition to training resources,"
+
+#: .\templates\sobre.html:15
+msgid ""
+"promove uma forte comunidade de networking, onde os professores podem "
+"conectar-se com colegas de diversas regiões e contextos. Este espaço "
+"colaborativo facilita a troca de experiências, ideias e práticas inovadoras, "
+"enriquecendo o repertório pedagógico de cada participante."
+msgstr ""
+"promotes a strong networking community where teachers can connect with peers "
+"from diverse regions and contexts. This collaborative space facilitates the "
+"exchange of experiences, ideas, and innovative practices, enriching each "
+"participant's pedagogical repertoire."
+
+#: .\templates\sobre.html:16
+msgid "Com uma abordagem centrada no usuário, a"
+msgstr "With a user-centered approach,"
+
+#: .\templates\sobre.html:16
+msgid ""
+"garante que todos os professores, independentemente de sua localização ou "
+"circunstâncias, possam aproveitar ao máximo as oportunidades de "
+"desenvolvimento profissional. Utilizamos ferramentas interativas e conteúdos "
+"dinâmicos para criar um ambiente de aprendizado motivador e envolvente, "
+"incentivando os educadores a participarem ativamente de sua própria formação."
+msgstr ""
+"ensures that all teachers, regardless of their location or circumstances, "
+"can make the most of professional development opportunities. We use "
+"interactive tools and dynamic content to create a motivating and engaging "
+"learning environment, encouraging educators to actively participate in their "
+"own training."
+
+#: .\templates\sobre.html:17
+msgid "A"
+msgstr "The"
+
+#: .\templates\sobre.html:17
+msgid ""
+"está comprometida em apoiar o crescimento e o sucesso dos professores, "
+"proporcionando-lhes os recursos necessários para avançarem em suas carreiras "
+"e se destacarem em suas práticas pedagógicas. Junte-se a nós e descubra como "
+"podemos ajudá-lo a transformar a educação, uma competência de cada vez."
+msgstr ""
+"is committed to supporting the growth and success of teachers, providing "
+"them with the resources needed to advance their careers and excel in their "
+"pedagogical practices. Join us and discover how we can help you transform "
+"education, one skill at a time."
+
+#: .\templates\sobre.html:19
+msgid "Autores"
+msgstr "Authors"
+
+#: .\templates\up_doc.html:5
+msgid "| Upload documentos"
+msgstr "| Upload documents"
+
+#: .\templates\up_doc.html:16
+msgid "Enviar os ficheiros"
+msgstr "Upload files"
+
+#: .\templates\up_doc.html:17
+msgid "Anexe os ficheiros abaixo"
+msgstr "Attach the files below"
+
+#: .\templates\up_doc.html:45 .\templates\up_doc.html:66
+msgid "Arraste o ficheiro aqui para fazer upload."
+msgstr "Drag the file here to upload."
+
+#: .\templates\up_doc.html:47 .\templates\up_doc.html:68
+msgid "Alternativamente, você pode selecionar um ficheiro clicando "
+msgstr "Alternatively, you can select a file by clicking "
+
+#: .\templates\up_doc.html:48 .\templates\up_doc.html:69
+msgid "clicando aqui"
+msgstr "clicking here"
+
+#: .\templates\up_doc.html:72
+msgid "Carregar"
+msgstr "Upload"
+
+#: .\templates\workshops.html:5
+msgid "| Workshops & Webinars"
+msgstr "| Workshops & Webinars"
+
+#: .\templates\workshops.html:15
+msgid "Workshops & Webinars para educadores"
+msgstr "Workshops & Webinars for Educators"
+
+#: .\templates\workshops.html:16
+msgid ""
+"Explore e inscreva-se em workshops e webinars para aprimorar suas "
+"habilidades de ensino."
+msgstr ""
+"Explore and sign up for workshops and webinars to enhance your teaching "
+"skills."
+
+#: .\templates\workshops.html:21
+msgid "Categoria"
+msgstr "Category"
+
+#: .\templates\workshops.html:41
+msgid "Instrutor:"
+msgstr "Instructor:"
+
+#: .\templates\workshops.html:42
+msgid "Tipo:"
+msgstr "Type:"
+
+#: .\templates\workshops.html:46
+msgid "Detalhes"
+msgstr "Details"

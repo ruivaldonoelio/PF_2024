@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Registo{% endblock %}
+{% block extra_title %}{% trans "| Registo" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/styles.css'%}" />
@@ -12,18 +13,18 @@
     <div class="col-md-12 d-flex flex-column align-items-center" style="height: 0%;">
         <form class="form" action="{% url 'profdevhub:resgito2' %}" method="post">
             {% csrf_token %}
-            <div class="title">Regsito<br /></div>
-            <input type="tel" placeholder="Telemovel" name="telemovel" class="input" />
+            <div class="title">{% trans "Registo" %}<br /></div>
+            <input type="tel" placeholder={% trans "Telemovel" %} name="telemovel" class="input" />
             {{ form.telemovel.errors }}
-            <input type="date" placeholder="Data de Nascimento" name="nascimento" class="input" />
+            <input type="date" placeholder={% trans "Data de Nascimento" %} name="nascimento" class="input" />
             {{ form.nascimento.errors }}
-            <input type="text" placeholder="Endereço" name="endereco" class="input" />
+            <input type="text" placeholder={% trans "Endereço" %} name="endereco" class="input" />
             {{ form.endereco.errors }}
-            <input type="text" placeholder="Cidade" name="cidade" class="input" />
+            <input type="text" placeholder={% trans "Cidade" %} name="cidade" class="input" />
             {{ form.cidade.errors }}
-            <input type="text" placeholder="Codigo Postal" name="codigo_postal" class="input" />
+            <input type="text" placeholder={% trans "Codigo Postal" %} name="codigo_postal" class="input" />
             {{ form.codigo_postal.errors }}
-            <button type="submit" class="button-confirm">Let`s go →</button>
+            <button type="submit" class="button-confirm">{% trans "Seguinte →" %}</button>
         </form>
     </div>
 </div>

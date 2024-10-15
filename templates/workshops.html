@@ -1,34 +1,28 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Workshops & Webinars{% endblock %}
+{% block extra_title %}{% trans "| Workshops & Webinars" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/pages.css'%}" />
 {% endblock %}
 
 {% block content %}
-{% if messages %}
-  <ul class="messages" style="margin-bottom: 0">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 <div class="container" id="background">
     <div class="col d-flex flex-column justify-content-center align-items-center">
         <header class="text-center my-4">
-            <h1>Workshops & Webinars para educadores</h1>
-            <p class="lead">Explore e inscreva-se em workshops e webinars para aprimorar suas habilidades de ensino.</p>
+            <h1>{% trans "Workshops & Webinars para educadores" %}</h1>
+            <p class="lead">{% trans "Explore e inscreva-se em workshops e webinars para aprimorar suas habilidades de ensino." %}</p>
             <form class="workshop_search" action="{% url 'profdevhub:workshops_webinars' %}" method="post">
                 {% csrf_token %}
                 <input type="text" class="form-control search" name="search" placeholder="Search...">
                 <select class="form-select" name="tipo" style=" width: 120px">
-                    <option selected>Categoria</option>
+                    <option selected>{% trans "Categoria" %}</option>
                     <option value="Work">Workshops</option>
                     <option value="Web">Webinars</option>
                 </select>
-                <button type="submit" class="btn btn-primary" style="width: 100px">Search</button>
+                <button type="submit" class="btn btn-primary" style="width: 100px">{% trans "Procurar" %}</button>
             </form>
 
         </header>
@@ -44,22 +38,22 @@
                             </div>
                             <div class="card-body">
                                 <p class="card-text">{{ work.descricao }}</p>
-                                <p class="card-text" style="margin-bottom: 0"><small class="text-muted">Instrutor: {{ work.instrutor }}</small></p>
-                                <p class="card-text"><small class="text-muted">Tipo: {{ work.get_tipo_display }}</small></p>
+                                <p class="card-text" style="margin-bottom: 0"><small class="text-muted">{% trans "Instrutor:" %} {{ work.instrutor }}</small></p>
+                                <p class="card-text"><small class="text-muted">{% trans "Tipo:" %} {{ work.get_tipo_display }}</small></p>
                             </div>
                         
                             <div class="card-footer d-flex justify-content-between align-items-center text-center" style= "line-height: 1;">
-                                <a href="{% url 'profdevhub:page_workshops_webinars' work.id %} ">Detalhes</a>
+                                <a href="{% url 'profdevhub:page_workshops_webinars' work.id %} ">{% trans "Detalhes" %}</a>
                                 {% if work.data_fim >= today and work.data_inicio <= today %}
-                                    <p style="color: rgb(255,198,30); margin-bottom: 0;"> A decorrer </p>
+                                    <p style="color: rgb(255,198,30); margin-bottom: 0;">{% trans "A decorrer" %}</p>
                                 {% elif work.fim_inscricao >= today  and work.inicio_inscricao <= today and work.limite_inscritos != work.inscritos.count%}
-                                    <p class="ant-typography" style="margin-bottom: 0;">Vagas: {{ work.inscritos.count }}/{{ work.limite_inscritos }}</p>
-                                    <p style="color: rgb(91,191,33); margin-bottom: 0;">Incrições abertas</p>
+                                    <p class="ant-typography" style="margin-bottom: 0;">{% trans "Vagas:" %} {{ work.inscritos.count }}/{{ work.limite_inscritos }}</p>
+                                    <p style="color: rgb(91,191,33); margin-bottom: 0;">{% trans "Incrições abertas" %}</p>
                                 {% elif work.limite_inscritos == work.inscritos.count and work.fim_inscricao >= today  and work.inicio_inscricao <= today%}
-                                    <p class="ant-typography" style="margin-bottom: 0;">Vagas: {{ work.inscritos.count }}/{{ work.limite_inscritos }}</p>
-                                    <p style="color: rgb(255,198,30); margin-bottom: 0;">Sem vagas</p>
+                                    <p class="ant-typography" style="margin-bottom: 0;">{% trans "Vagas:" %} {{ work.inscritos.count }}/{{ work.limite_inscritos }}</p>
+                                    <p style="color: rgb(255,198,30); margin-bottom: 0;">{% trans "Sem vagas" %}</p>
                                 {% elif work.fim_inscricao < today %}
-                                    <p style="color: rgb(191,33,33); margin-bottom: 0;">Incrições fechadas</p>
+                                    <p style="color: rgb(191,33,33); margin-bottom: 0;">{% trans "Incrições fechadas" %}</p>
                                 {% endif %}
                             </div>
                         </div>

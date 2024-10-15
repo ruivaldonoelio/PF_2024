@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Recursos{% endblock %}
+{% block extra_title %}{% trans "| Recursos" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/pages.css'%}" />
@@ -11,12 +12,12 @@
 <div class="container" id="background">
     <div class="col d-flex flex-column justify-content-center align-items-center">
         <header class="text-center my-4">
-            <h1>Recursos educacionais</h1>
-            <p class="lead">Explore uma variedade de recursos educacionais compartilhados por colegas educadores.</p>
+            <h1>{% trans "Recursos educacionais" %}</h1>
+            <p class="lead">{% trans "Explore uma variedade de recursos educacionais compartilhados por colegas educadores." %}</p>
             <form class="workshop_search" action="{% url 'profdevhub:resources' %}" method="post">
                 {% csrf_token %}
                 <input type="text" class="form-control search" name="search" placeholder="Search...">
-                <button type="submit" class="btn btn-primary" style="width: 100px">Search</button>
+                <button type="submit" class="btn btn-primary" style="width: 100px">{% trans "Procurar" %}</button>
             </form>
         </header>
         <main class="container">
@@ -31,8 +32,8 @@
                                 </div>
                                 <div class="card-footer d-flex justify-content-between align-items-center">
                                     <div> 
-                                        <small class="text-muted">Uploaded by: {{ recurso.owner }}</small><br>
-                                        <small class="text-muted">Date: {{ recurso.data_upload }}</small>
+                                        <small class="text-muted">{% trans "Enviado por:" %} {{ recurso.owner }}</small><br>
+                                        <small class="text-muted">{% trans "Data:" %} {{ recurso.data_upload }}</small>
                                     </div>
                                     <a style= "margin-right: 2%" href="{{ recurso.arquivo.url }}" download>Download</a>
                                 </div>

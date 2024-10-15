@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Upload documentos{% endblock %}
+{% block extra_title %}{% trans "| Upload documentos" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/confirm.css'%}" />
@@ -12,8 +13,8 @@
     <div class="col" style="width: 80%; height: 100%; padding-top: 15px; padding-bottom: 15px;">
         <div class="up_doc">
             <div class="modal-body">
-                <p class="modal-title">Enviar os ficheiros</p>
-                <p class="modal-description">Anexe os ficheiros abaixo</p>
+                <p class="modal-title">{% trans "Enviar os ficheiros" %}</p>
+                <p class="modal-description">{% trans "Anexe os ficheiros abaixo" %}</p>
 
                 <form class="up_doc hidden" action="{% url 'profdevhub:up_documentos' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -41,10 +42,10 @@
                             </g>
                         </svg>
                     </span>
-                    <span class="upload-area-title" id="file_name1">Arraste o ficheiro aqui para fazer upload.</span>
+                    <span class="upload-area-title" id="file_name1">{% trans "Arraste o ficheiro aqui para fazer upload." %}</span>
                     <span class="upload-area-description1" id="file_description1">
-                        Alternativamente, você pode selecionar um ficheiro clicando <br />
-                        <strong>clicando aqui</strong>
+                        {% trans "Alternativamente, você pode selecionar um ficheiro clicando " %}<br />
+                        <strong>{% trans "clicando aqui" %}</strong>
                     </span>
                 </div>
 
@@ -62,13 +63,13 @@
                             </g>
                         </svg>
                     </span>
-                    <span class="upload-area-title" id="file_name2">Arraste o ficheiro aqui para fazer upload.</span>
+                    <span class="upload-area-title" id="file_name2">{% trans "Arraste o ficheiro aqui para fazer upload." %}</span>
                     <span class="upload-area-description2" id="file_description2">
-                        Alternativamente, você pode selecionar um ficheiro clicando <br />
-                        <strong>clicando aqui</strong>
+                        {% trans "Alternativamente, você pode selecionar um ficheiro clicando " %}<br />
+                        <strong>{% trans "clicando aqui" %}</strong>
                     </span>
                 </div>
-                <button onclick="document.getElementById('enviar').click();" class="btn-primary">Upload</button>
+                <button onclick="document.getElementById('enviar').click();" class="btn-primary">{% trans "Carregar" %}</button>
             </div>
         </div>
     </div>

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Sobre{% endblock %}
+{% block extra_title %}{% trans "| Sobre" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/new_things.css'%}" />
@@ -12,24 +13,24 @@
 <div id="background" class="container d-flex  justify-content-center align-items-center" style="padding-top: 15px;">
     <div class="form">
         <div class="form__header">
-            <span class="form__title">Reclamações</span>
+            <span class="form__title">{% trans "Reclamações" %}</span>
         </div>
         <div class="form__body">
             <form class="input" action="{% url 'profdevhub:feedback' %}" method="post">
                 {% csrf_token %}
-                <label class="input__label" >Email</label>
+                <label class="input__label" >{% trans "Email" %}</label>
                 <input class="input__field" type="text" name="email" required/>
-                <label class="input__label">Topico</label>
+                <label class="input__label">{% trans "Topico" %}</label>
                 <select class="input__field" id="topico" name="topico">
-                    <option value="volvo">Feedback</option>
-                    <option value="audi">Diversos</option>
+                    <option value="volvo">{% trans "Feedback" %}</option>
+                    <option value="audi">{% trans "Diversos" %}</option>
                 </select>
     
-                <label class="input__label">Descrição</label>
+                <label class="input__label">{% trans "Descrição" %}</label>
                 <textarea class="input__field input__field--textarea" name="descricao" required></textarea>
     
                 <div class="form__footer">
-                    <button class="button button--primary">Enviar</button>
+                    <button class="button button--primary">{% trans "Enviar" %}</button>
                 </div>
             </form>
         </div>

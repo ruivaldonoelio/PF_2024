@@ -1,30 +1,24 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Home{% endblock %}
+{% block extra_title %}{% trans "| Home" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/pages.css'%}" />
 {% endblock %}
 
 {% block content %}
-{% if messages %}
-  <ul class="messages" style="margin-bottom: 0">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 <div class="container" id="background" style="padding-top: 17px;">
     <header>
-        <h1>Bem vindo!</h1>
-        <p>Este é o seu painel onde você pode visualizar suas atividades e notificações recentes.</p>
+        <h1>{% trans "Bem vindo!" %}</h1>
+        <p>{% trans "Este é o seu painel onde você pode visualizar suas atividades e notificações recentes." %}</p>
     </header>
 
     <div class="row set_home" style="padding: 20px;">
         <div class="col">
             <div class="card">
-                <div class="card-header">Notificações recentes</div>
+                <div class="card-header">{% trans "Notificações recentes" %}</div>
                 <div class="card-body" style="overflow-y: scroll">
                     {% for notif in notificacao %}
                         <div class="d-flex justify-content-between align-items-center">
@@ -43,13 +37,13 @@
         </div>
         <div class="col">
             <div class="card">
-                <div class="card-header">Inscrições atuais</div>
+                <div class="card-header">{% trans "Inscrições atuais" %}</div>
                 <div class="card-body justify-content-between d-flex">
                     {% if curso %}
                         <a href="{% url 'profdevhub:page_courses' curso.id %}">{{ curso.titulo }} </a>
-                        <p class="card-text">Media: {{ notas_media }}</p>
+                        <p class="card-text">{% trans "Media:" %} {{ notas_media }}</p>
                     {% else %}
-                        <p class="card-text">Sem inscrições</p>
+                        <p class="card-text">{% trans "Sem inscrições" %}</p>
                     {% endif %}
                 </div>
             </div>

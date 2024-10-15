@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Exercício|{{ exercicio.nome }}{% endblock %}
+{% block extra_title %}{% trans "| Exercício|" %}{{ exercicio.nome }}{% endblock %}
 
 {% block extra_css %}<link rel="stylesheet" href="{% static '../static/css/new_things.css'%}" />{% endblock %}
 
@@ -19,7 +20,7 @@
                     <textarea class="input__field_Q" type="text" name="{{ ques.id }}" style="width: 100%;"></textarea>
                 {% endfor %}
                <div class="form__footer">
-                    <button type="submit" class="button button--primary">Submeter</button>
+                    <button type="submit" class="button button--primary">{% trans "Submeter" %}</button>
                 </div> 
             </form>
         </div>

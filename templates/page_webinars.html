@@ -1,16 +1,10 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Workshop & Webinars|{{ workshop.titulo }}{% endblock %}
+{% block extra_title %}{% trans "| Workshop & Webinars|" %}{{ workshop.titulo }}{% endblock %}
 
 {% block content %}
-{% if messages %}
-  <ul class="messages" style="margin-bottom: 0">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 <div class="container" id="background" style="padding: 20px;">
     <div class="row">
         <div class="col-md-3 col-lg-2 text-center d-md-flex flex-column align-items-md-center" style="padding: 20px; height: 40%;">
@@ -29,42 +23,42 @@
             {% if not inscrito and workshop.inicio_inscricao <= today and workshop.fim_inscricao >= today and workshop.limite_inscritos != workshop.inscritos.count %}
                 <form action="{% url 'profdevhub:inscricao_anular_workshop' workshop.id%}" method="post">
                     {% csrf_token %}
-                    <button class="mainbtn_login" style="margin: 5px 0" type="submit">Inscrever</button>
+                    <button class="mainbtn_login" style="margin: 5px 0" type="submit">{% trans "Inscrever" %}</button>
                 </form>
             {% elif inscrito and workshop.inicio_inscricao <= today and workshop.fim_inscricao >= today%}
                 <form action="{% url 'profdevhub:inscricao_anular_workshop' workshop.id%}" method="post">
                     {% csrf_token %}
-                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit"> Anular inscrição</button>
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">{% trans "Anular inscrição" %}</button>
                 </form>
             {% endif %}
         
             {% if not espera and today < curso.workshop_inscricao %}
                 <a href="{% url 'profdevhub:wb_espera_notificacao' workshop %}">
-                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">Notificar</button>
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">{% trans "Notificar" %}</button>
                 </a>
             {% elif not espera and not inscrito and workshop.inicio_inscricao <= today and workshop.fim_inscricao >= today and workshop.limite_inscritos == workshop.inscritos.count %}
                 <a href="{% url 'profdevhub:wb_espera_notificacao' workshop.id %}">
-                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">Lista de espera</button>
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">{% trans "Lista de espera" %}</button>
                 </a>
             {% endif %}
         
             {% if workshop.data_fim >= today and workshop.data_inicio <= today %}
-                <p style="color: rgb(255,198,30)"> A decorrer </p>
+                <p style="color: rgb(255,198,30)">{% trans "A decorrer" %}</p>
             {% elif workshop.fim_inscricao >= today  and workshop.inicio_inscricao <= today and workshop.limite_inscritos != workshop.inscritos.count%}
-                <p style="color: rgb(91,191,33); margin-bottom: 0">Incrições abertas</p>
+                <p style="color: rgb(91,191,33); margin-bottom: 0">{% trans "Incrições abertas" %}</p>
                 <p class="ant-typography" style="margin-bottom: 0">Vagas: {{ workshop.inscritos.count }}/{{ workshop.limite_inscritos }}</p>
             {% elif workshop.limite_inscritos == workshop.inscritos.count and workshop.fim_inscricao >= today  and workshop.inicio_inscricao <= today%}
-                <p style="color: rgb(255,198,30); margin-bottom: 0">Sem vagas</p>
+                <p style="color: rgb(255,198,30); margin-bottom: 0">{% trans "Sem vagas" %}</p>
                 <p class="ant-typography" style="margin-bottom: 0">Vagas: {{ workshop.inscritos.count }}/{{ workshop.limite_inscritos }}</p>
             {% elif workshop.fim_inscricao < today %}
-                <p style="color: rgb(191,33,33); margin-bottom: 0">Incrições fechadas</p>
+                <p style="color: rgb(191,33,33); margin-bottom: 0">{% trans "Incrições fechadas" %}</p>
             {% endif %}
         </div>
         <div class="col-md-7 d-flex flex-column flex-grow-1" style="padding: 20px;">
             <h1>{{ workshop.titulo }}</h1>
             <p class="text-break">{{ workshop.texto }}</p>
             {% if inscrito and workshop.data_fim >= today and workshop.data_inicio <= today%}
-                <a href="#">Zoom</a><a href="{{ workshop.arquivo.url }}" style="margin-top: 6px;" download>Se quiser ver de novo pode fazer o download do gravação</a>
+                <a href="#">Zoom</a><a href="{{ workshop.arquivo.url }}" style="margin-top: 6px;" download>{% trans "Se quiser ver de novo pode fazer o download do gravação" %}</a>
             {% endif %}
         </div>
     </div>

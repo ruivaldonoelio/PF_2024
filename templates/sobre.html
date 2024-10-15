@@ -1,21 +1,22 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Sobre{% endblock %}
+{% block extra_title %}{% trans "| Sobre" %}{% endblock %}
 
 {% block content %}
 <div id="background">
     <div class="container d-flex flex-column align-items-center">
         <header class="text-center my-4">
-            <h1>Sobre</h1>
+            <h1>{% trans "Sobre" %}</h1>
         </header>
-        <p><strong>ProfDevHub</strong> é uma plataforma online inovadora criada para impulsionar o desenvolvimento profissional dos professores. Em um mundo educacional em constante evolução, é essencial que os educadores tenham acesso a recursos que os ajudem a aprimorar suas competências pedagógicas, compartilhar melhores práticas e se manterem atualizados com as últimas tendências e inovações no ensino.</p>
-        <p>Na <strong>ProfDevHub</strong>, oferecemos uma variedade de módulos de formação abrangentes que atendem às necessidades de professores em todas as fases de suas carreiras. Nossa plataforma foi projetada para ser intuitiva e fácil de usar, permitindo que os educadores acessem conteúdos de qualidade e participem de experiências de aprendizado envolventes e flexíveis.</p>
-        <p>Além dos recursos de formação, a <strong>ProfDevHub</strong> promove uma forte comunidade de networking, onde os professores podem conectar-se com colegas de diversas regiões e contextos. Este espaço colaborativo facilita a troca de experiências, ideias e práticas inovadoras, enriquecendo o repertório pedagógico de cada participante.</p>
-        <p>Com uma abordagem centrada no usuário, a <strong>ProfDevHub</strong> garante que todos os professores, independentemente de sua localização ou circunstâncias, possam aproveitar ao máximo as oportunidades de desenvolvimento profissional. Utilizamos ferramentas interativas e conteúdos dinâmicos para criar um ambiente de aprendizado motivador e envolvente, incentivando os educadores a participarem ativamente de sua própria formação.</p>
-        <p>A <strong>ProfDevHub</strong> está comprometida em apoiar o crescimento e o sucesso dos professores, proporcionando-lhes os recursos necessários para avançarem em suas carreiras e se destacarem em suas práticas pedagógicas. Junte-se a nós e descubra como podemos ajudá-lo a transformar a educação, uma competência de cada vez.</p>
+        <p><strong>ProfDevHub</strong> {% trans "é uma plataforma online inovadora criada para impulsionar o desenvolvimento profissional dos professores. Em um mundo educacional em constante evolução, é essencial que os educadores tenham acesso a recursos que os ajudem a aprimorar suas competências pedagógicas, compartilhar melhores práticas e se manterem atualizados com as últimas tendências e inovações no ensino." %}</p>
+        <p>{% trans "Na" %} <strong>ProfDevHub</strong>, {% trans "oferecemos uma variedade de módulos de formação abrangentes que atendem às necessidades de professores em todas as fases de suas carreiras. Nossa plataforma foi projetada para ser intuitiva e fácil de usar, permitindo que os educadores acessem conteúdos de qualidade e participem de experiências de aprendizado envolventes e flexíveis." %}</p>
+        <p>{% trans "Além dos recursos de formação, a" %} <strong>ProfDevHub</strong> {% trans "promove uma forte comunidade de networking, onde os professores podem conectar-se com colegas de diversas regiões e contextos. Este espaço colaborativo facilita a troca de experiências, ideias e práticas inovadoras, enriquecendo o repertório pedagógico de cada participante." %}</p>
+        <p>{% trans "Com uma abordagem centrada no usuário, a" %} <strong>ProfDevHub</strong> {% trans "garante que todos os professores, independentemente de sua localização ou circunstâncias, possam aproveitar ao máximo as oportunidades de desenvolvimento profissional. Utilizamos ferramentas interativas e conteúdos dinâmicos para criar um ambiente de aprendizado motivador e envolvente, incentivando os educadores a participarem ativamente de sua própria formação." %}</p>
+        <p>{% trans "A" %} <strong>ProfDevHub</strong> {% trans "está comprometida em apoiar o crescimento e o sucesso dos professores, proporcionando-lhes os recursos necessários para avançarem em suas carreiras e se destacarem em suas práticas pedagógicas. Junte-se a nós e descubra como podemos ajudá-lo a transformar a educação, uma competência de cada vez." %}</p>
         <header class="text-center my-4">
-            <h1>Autores</h1>
+            <h1>{% trans "Autores" %}</h1>
         </header>
         <img class="rounded-circle img-fluid" width="100" height="80" src="{% static '../static/img/delcio.jpg' %}" style="width: 174px; height: 174px;" />
         <h2>Délcio Costa, CEO</h2>

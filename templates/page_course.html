@@ -1,16 +1,10 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Cursos|{{ curso.titulo }}{% endblock %}
+{% block extra_title %}{% trans "| Cursos|" %}{{ curso.titulo }}{% endblock %}
 
 {% block content %}
-{% if messages %}
-  <ul class="messages" style="margin-bottom: 0">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 <div id="background" class="container" style="padding: 20px;">
     <div class="row">
         <div class="col-md-3 col-lg-2 text-center d-md-flex flex-column align-items-md-center" style="padding: 20px; height: 40%;">
@@ -28,42 +22,42 @@
                     <p style="margin-bottom: 0;">+351961250522</p>
                     <div class="d-flex justify-content-center" style="gap: 10px;margin-bottom: 5px;">
                         <a href="#">Zoom</a>
-                        <a href="{% url 'profdevhub:page_forum' curso.forum.id %}">Forum</a>   
+                        <a href="{% url 'profdevhub:page_forum' curso.forum.id %}">{% trans "Forum" %}</a>   
                     </div>
                 {% endif %}
         
             {% if not inscrito and curso.inicio_inscricao <= today and curso.fim_inscricao >= today and curso.limite_inscritos != curso.inscritos.count %}
                 <form action="{% url 'profdevhub:inscricao_anular_curso' curso.id%}">
                     {% csrf_token %}
-                    <button class="mainbtn_login" style="margin: 5px 0" type="submit">Inscrever</button>
+                    <button class="mainbtn_login" style="margin: 5px 0" type="submit">{% trans "Inscrever" %}</button>
                 </form>
             {% elif inscrito and curso.inicio_inscricao <= today and curso.fim_inscricao >= today%}
                 <form action="{% url 'profdevhub:inscricao_anular_curso' curso.id%}">
                     {% csrf_token %}
-                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit"> Anular inscrição</button>
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">{% trans "Anular inscrição" %}</button>
                 </form>
             {% endif %}
 
             {% if not espera and today < curso.inicio_inscricao %}
                 <a href="{% url 'profdevhub:c_espera_notificacao' curso.id %}">
-                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">Notificar</button>
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">{% trans "Notificar" %}</button>
                 </a>
             {% elif not espera and not inscrito and curso.inicio_inscricao <= today and curso.fim_inscricao >= today and curso.limite_inscritos == curso.inscritos.count %}
                 <a href="{% url 'profdevhub:c_espera_notificacao' curso.id %}">
-                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">Lista de espera</button>
+                    <button class="mainbtn_login" style="margin: 5px 0; line-height: 0.8;" type="submit">{% trans "Lista de espera" %}</button>
                 </a>
             {% endif %}
         
             {% if curso.data_fim >= today and curso.data_inicio <= today %}
-                <p style="color: rgb(255,198,30)"> A decorrer </p>
+                <p style="color: rgb(255,198,30)">{% trans "A decorrer" %}</p>
             {% elif curso.fim_inscricao >= today  and curso.inicio_inscricao <= today and curso.limite_inscritos != curso.inscritos.count%}
-                <p style="color: rgb(91,191,33); margin-bottom: 0">Incrições abertas</p>
+                <p style="color: rgb(91,191,33); margin-bottom: 0">{% trans "Incrições abertas" %}</p>
                 <p class="ant-typography" style="margin-bottom: 0">Vagas: {{ curso.inscritos.count }}/{{ curso.limite_inscritos }}</p>
             {% elif curso.limite_inscritos == curso.inscritos.count and curso.fim_inscricao >= today  and curso.inicio_inscricao <= today%}
-                <p style="color: rgb(255,198,30); margin-bottom: 0">Sem vagas</p>
+                <p style="color: rgb(255,198,30); margin-bottom: 0">{% trans "Sem vagas" %}</p>
                 <p class="ant-typography" style="margin-bottom: 0">Vagas: {{ curso.inscritos.count }}/{{ curso.limite_inscritos }}</p>
             {% elif curso.fim_inscricao < today %}
-                <p style="color: rgb(191,33,33); margin-bottom: 0">Incrições fechadas</p>
+                <p style="color: rgb(191,33,33); margin-bottom: 0">{% trans "Incrições fechadas" %}</p>
             {% endif %}
 
         </div>
@@ -79,7 +73,7 @@
                         data-bs-toggle="collapse"
                         data-bs-target="#descricao"
                     >
-                        &nbsp; &nbsp;Descrição
+                        &nbsp; &nbsp;{% trans "Descrição" %}
                         <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
                         </svg>
@@ -113,7 +107,7 @@
                             data-bs-toggle="collapse"
                             data-bs-target="#conteudo"
                         >
-                            &nbsp; &nbsp;Conteúdo
+                            &nbsp; &nbsp;{% trans "Conteúdo" %}
                             <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
                             </svg>
@@ -149,7 +143,7 @@
                             data-bs-toggle="collapse"
                             data-bs-target="#exercicio"
                         >
-                            &nbsp; &nbsp;Exercícios
+                            &nbsp; &nbsp;{% trans "Exercícios" %}
                             <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
                             </svg>
@@ -161,8 +155,8 @@
                                 {% for ex in curso.exercicios.all %}
                                     <li>
                                         <a href="{% url 'profdevhub:exercicios' ex.id %}" style="margin-left: 1px; height: initial; margin-right: 7px;" target="_blank">{{ ex.nome }}</a>
-                                        Limite: {{ ex.data_encerramento }}
-                                        Nota:
+                                        {% trans "Limite:" %} {{ ex.data_encerramento }}
+                                        {% trans "Nota:" %}
                                         {% for n in exercicios_notas %}
                                             {% if ex.id == n.exercicio.id %}
                                                 {{ n.nota }}
@@ -193,7 +187,7 @@
                             data-bs-toggle="collapse"
                             data-bs-target="#quest"
                         >
-                            &nbsp; &nbsp;Questionários&nbsp;
+                            &nbsp; &nbsp;{% trans "Questionários" %}&nbsp;
                             <svg class="w-6 h-6 text-gray-800 dark:text-white toggle-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" style="margin-right: 1%;">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
                             </svg>
@@ -203,7 +197,7 @@
                         <div class="col">
                             <ol style="margin: 0;">
                                 {% for quet in curso.questionarios.all %}
-                                    <li><a href="{{ quest.arquivo.url }}" style="margin-left: 1px; height: initial; margin-right: 7px;" download>Fazer download</a></li>
+                                    <li><a href="{{ quest.arquivo.url }}" style="margin-left: 1px; height: initial; margin-right: 7px;" download>{% trans "Fazer download" %}</a></li>
                                 {% endfor %}
                             </ol>
                         </div>

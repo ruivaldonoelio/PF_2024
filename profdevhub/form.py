@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from datetime import date
 from .models import User_details
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 import re
 
 
@@ -21,19 +22,19 @@ class RegistroUsuarioForm(forms.ModelForm):
         password_confirm = cleaned_data.get('password_confirm')
 
         if password != password_confirm:
-            raise forms.ValidationError("As senhas não coincidem. Por favor, digite novamente.")
+            raise forms.ValidationError(_("As senhas não coincidem. Por favor, digite novamente."))
         return cleaned_data
 
     def clean_username(self):
         username = self.cleaned_data['username']
         if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("Este nome de usuário já está em uso. Por favor, escolha outro.")
+            raise forms.ValidationError(_("Este nome de usuário já está em uso. Por favor, escolha outro."))
         return username
 
     def clean_email(self):
         email = self.cleaned_data['email']
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Este email já está em uso. Por favor, escolha outro.")
+            raise forms.ValidationError(_("Este email já está em uso. Por favor, escolha outro."))
         return email
 
     def save(self, commit=True):
@@ -58,13 +59,13 @@ class UserDetailsForm(forms.ModelForm):
         idade = (date.today() - nascimento).days // 365  # Calcula a idade em anos
 
         if idade < idade_minima:
-            raise ValidationError("Você deve ter pelo menos 24 anos para se cadastrar.")
+            raise ValidationError(_("Você deve ter pelo menos 24 anos para se cadastrar."))
         return nascimento.strftime("%Y-%m-%d")
 
     def clean_codigo_postal(self):
         codigo_postal = self.cleaned_data.get('codigo_postal')
         if not re.match(r'^\d{4}-\d{3}$', codigo_postal):
-            raise ValidationError("O código postal deve estar no formato '1111-111'.")
+            raise ValidationError(_("O código postal deve estar no formato '1111-111'."))
         return codigo_postal
 
 
@@ -78,7 +79,7 @@ class PasswordResetForm(forms.Form):
         re_password = cleaned_data.get('re_password')
 
         if password != re_password:
-            raise forms.ValidationError("A nova senha e a confirmação de senha não correspondem.")
+            raise forms.ValidationError(_("A nova senha e a confirmação de senha não correspondem."))
         return cleaned_data
 
 
@@ -88,7 +89,7 @@ class EmailLoginForm(AuthenticationForm):
     def clean_username(self):
         email = self.cleaned_data.get('username')
         if not email:
-            raise forms.ValidationError("O campo Email é obrigatório.")
+            raise forms.ValidationError(_("O campo Email é obrigatório."))
         return email
 
     def clean(self):
@@ -100,11 +101,11 @@ class EmailLoginForm(AuthenticationForm):
                 user = User.objects.get(email=email)
                 self.user_cache = authenticate(username=user.username, password=password)
                 if self.user_cache is None:
-                    raise forms.ValidationError("Email ou senha inválidos.")
+                    raise forms.ValidationError(_("Email ou senha inválidos."))
                 elif not self.user_cache.is_active:
-                    raise forms.ValidationError("Esta conta está inativa.")
+                    raise forms.ValidationError(_("Esta conta está inativa."))
             except User.DoesNotExist:
-                raise forms.ValidationError("Email ou senha inválidos.")
+                raise forms.ValidationError(_("Email ou senha inválidos."))
         return self.cleaned_data
 
     def get_user(self):
@@ -124,11 +125,11 @@ class UserUpdateForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
-            raise forms.ValidationError("Este email já está em uso.")
+            raise forms.ValidationError(_("Este email já está em uso."))
         return email
 
     def clean_codigo_postal(self):
         codigo_postal = self.cleaned_data.get('codigo_postal')
         if codigo_postal and not re.match(r'^\d{4}-\d{3}$', codigo_postal):
-            raise forms.ValidationError("O formato do código postal deve ser 1111-111.")
+            raise forms.ValidationError(_("O formato do código postal deve ser 1111-111."))
         return codigo_postal

@@ -1,25 +1,19 @@
 {% extends "base.html"%}
+{% load i18n %}
 {% load static %}
 
-{% block extra_title %}| Perfil{% endblock %}
+{% block extra_title %}{% trans "| Perfil" %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static '../static/css/profile.css'%}" />
 {% endblock %}
 
 {% block content %}
-{% if messages %}
-  <ul class="messages" style="margin-bottom: 0">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 <div class="container" id="background">
     <div class="col d-flex flex-column justify-content-center align-items-center module" style="width: 100%; max-width: 500px;">
         <div class="col-xxl-8 col-xl-10 col-lg-12 justify-content-center" style="width: 100%;">
             <div class="d-flex align-items-center justify-content-between mb-3 text-center">
-                <h1 class="flex-grow-1">Perfil</h1>
+                <h1 class="flex-grow-1">{% trans "Perfil" %}</h1>
             </div>
             <div class="d-flex justify-content-center mb-3 position-relative">
                 <span class="avatar avatar-circle" style="width: 80px; height: 80px; font-size: 18px;">
@@ -35,41 +29,41 @@
             <form class="needs-validation" id="profileForm" action="{% url 'profdevhub:perfil' %}" method="post">
                 {% csrf_token %}
                 
-                <label for="first_name" class="form-label">Primeiro Nome</label>
+                <label for="first_name" class="form-label">{% trans "Primeiro Nome" %}</label>
                 <input id="first_name" name="first_name" class="form-control" type="text" value="{{ user.first_name }}" />
 
-                <label for="last_name" class="form-label">Ultimo Nome</label>
+                <label for="last_name" class="form-label">{% trans "Ultimo Nome" %}</label>
                 <input id="last_name" name="last_name" class="form-control" type="text" value="{{ user.last_name }}">
 
-                <label for="email" class="form-label">Email</label>
+                <label for="email" class="form-label">{% trans "Email" %}</label>
                 <input autocomplete="email" name="email" placeholder="Your email" id="email" class="form-control" type="email" value="{{ user.email }}">
                 {{ form.email.errors }}
-                <label for="telemovel" class="form-label">Telemovel</label>
+                <label for="telemovel" class="form-label">{% trans "Telemovel" %}</label>
                 <input id="endereco" name="telemovel" class="form-control" type="tel" value={{ user.detalhes.telemovel }}>
 
-                <label for="endereco" class="form-label">Endereço</label>
+                <label for="endereco" class="form-label">{% trans "Endereço" %}</label>
                 <input id="endereco" name="endereco" class="form-control" type="text" value={{ user.detalhes.endereco }}>
 
-                <label for="cidade" class="form-label">Cidade</label>
+                <label for="cidade" class="form-label">{% trans "Cidade" %}</label>
                 <input id="cidade" name="cidade" class="form-control" type="text" value="{{ user.detalhes.cidade }}">
 
-                <label for="cp" class="form-label">Codigo-Postal</label>
+                <label for="cp" class="form-label">{% trans "Codigo-Postal" %}</label>
                 <input id="cp" name="codigo_postal" class="form-control" type="text" value={{ user.detalhes.codigo_postal }}>
                 {{ form.codigo_postal.errors }}
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">
-                        <span>Save</span>
+                        <span>{% trans "Salvar" %}</span>
                     </button>
                 </div>
             </form>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary" onclick="url_password()">
-                    <span>Reset Password</span>
+                    <span> {% trans "Redefinir palavra-passe" %}</span>
                 </button>
             </div>
             <div class="mb-3">
                 <button type="button" class="btn btn-outline-secondary btn-logout" onclick="url_logout()">
-                    <span>Logout</span>
+                    <span>{% trans "Sair" %}</span>
                 </button>
             </div>
         </div>

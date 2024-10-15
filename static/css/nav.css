@@ -196,3 +196,10 @@ a {
 .messages li.error {
     background-color: #ffe3e3;
 }
+
+
+.language {
+  background: none;
+  border: none;
+  padding: 0
+}
